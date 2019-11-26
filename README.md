@@ -1,56 +1,22 @@
-# Play File Upload using a custom BodyParser
+# Snooker-O
 
-This is a sample project that shows how to upload a file through Akka Streams using a custom BodyParser using Akka Streams using the Scala API.
+This is a Scala/Play framework project inspired by a mix of an Orienteering Score event and the rules of Snooker.  
 
-Play's Scala API for `parse.multipartFormData` uses a `BodyParser[MultipartFormData[TemporaryFile]]`.  The `TemporaryFile` wrapper class creates a file under a "temporary" name and then deletes it only when the system is under GC pressure.
+The aim of the project is to import the basic results file of a Score event from SiTiming's software and process them according to our simplified Snooker rules to calculate each competitors score.
 
-## Customizing the Body Parser
+* Orienteering https://en.wikipedia.org/wiki/Orienteering
+* Score event  https://en.wikipedia.org/wiki/Orienteering#Score
+* Snooker rules https://en.wikipedia.org/wiki/Rules_of_snooker
+* SiTiming https://www.sportident.co.uk/
 
-There are cases where it's useful to have more control over where and Play uploads multi part form data.  In this case, we'd like to get access to the accumulated byte stream for each file part and generate a file directly, without going through `TemporaryFile`.
+## How to use the application
 
-In short, we want to replace:
+1. Run a normal Score event using SiTiming.  There is no need to allocate points to controls, they will be ignored anyway.
+2. Export the results from SiTiming.  Use the export processable CSV option.
+3. ... more to follow in a later update
 
-```scala
-Action(parse.multipartFormData)
-```
+## How to build and run the application
+1. ...  Write some instructions 
 
-with
-
-```scala
-Action(parse.multipartFormData(handleFilePartAsFile))
-```
-
-And we want to change as little code as possible.  The underlying mechanics are simple -- rather than use the default parser, a method `handleFilePartAsFile` is called in the action and returns a file:
-
-``` scala
-def upload = Action(parse.multipartFormData(handleFilePartAsFile)) { implicit request =>
-  val fileOption = request.body.file("name").map {
-    case FilePart(key, filename, contentType, file) =>
-      logger.info(s"key = ${key}, filename = ${filename}, contentType = ${contentType}, file = $file")
-      val data = operateOnTempFile(file)
-      data
-  }
-
-  Ok(s"file size = ${fileOption}")
-}
-```
-
-The implementation of `handleFilePartAsFile` uses a type alias `FilePartHandler` that is returned, and a custom accumulator will pull a file from anywhere on the filesystem (here we are using `Files.createTempFile`)
-
-```scala
-type FilePartHandler[A] = FileInfo => Accumulator[ByteString, FilePart[A]]
-
-private def handleFilePartAsFile: FilePartHandler[File] = {
-  case FileInfo(partName, filename, contentType) =>
-    val attr = PosixFilePermissions.asFileAttribute(util.EnumSet.of(OWNER_READ, OWNER_WRITE))
-    val path: Path = Files.createTempFile("multipartBody", "tempFile", attr)
-    val file = path.toFile
-    val fileSink: Sink[ByteString, Future[IOResult]] = FileIO.toFile(file)
-    val accumulator: Accumulator[ByteString, IOResult] = Accumulator(fileSink)
-    accumulator.map {
-      case IOResult(count, status) =>
-        logger.info(s"count = $count, status = $status")
-        FilePart(partName, filename, contentType, file)
-    }(play.api.libs.concurrent.Execution.defaultContext)
-}
-```
+## Credit to those who inspired this application
+1. QO?  Roo? etc...
