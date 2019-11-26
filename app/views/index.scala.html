@@ -1,0 +1,23 @@
+@()(implicit request: MessagesRequestHeader)
+
+@main("Welcome Snooker O") {
+  <div class="container">
+    <h1>What is Orienteering Snooker</h1>
+        <p>Snooker O is a combination of a standard Score event with the rules of Snooker.</p>
+        <p>In the main variant, a competitor must punch a 'red' control and then a 'colour' control until all the reds have been cleared.
+          Then the colours need to be punched in the correct order for Snooker (Yellow, Green, Brown, Blue, Pink, Black).</p>
+
+        <p>Of course, all this is within the time limits of a Score event so there are penalties for being late.</p>
+
+    <h2>Where next</h2>
+    <ul>
+      <li><a href=@routes.HomeController.rulesDisplay>See the rules for Snooker O</a></li>
+    </ul>
+
+    <div>
+      @helper.form(action = routes.HomeController.uploadDisplay) {
+        <input type="submit" id="upload" value="Continue"/>
+      }
+    </div>
+  </div>
+}
