@@ -1,7 +1,7 @@
 package models
 
 import enumeratum._
-import models.BallColour.{IllegalColour, IllegalRed, RedBall}
+import models.BallColour.{IllegalColour, IllegalRed}
 
 sealed abstract class BallColour(points: Double, isColour: Boolean) extends EnumEntry {
   val getPointsValue: Double = points
@@ -27,13 +27,22 @@ object BallColour extends Enum[BallColour] {
   case object BlueBall extends BallColour(50, true)
   case object PinkBall extends BallColour(60, true)
   case object BlackBall extends BallColour(70, true)
+
+  case object UnknownBall extends BallColour(0, false)
+
   case object AnyColouredBall extends BallColour(0, true)
 
   case object IllegalRed extends BallColour(0, false)
   case object IllegalColour extends BallColour(0, true)
 
-  case object UnknownBall extends BallColour(0, false)
-
   val values = findValues
 
+  def getNextColour(thisColour: BallColour): BallColour = {
+    val thisIndex = BallColour.indexOf(thisColour)
+    if(thisIndex < BallColour.indexOf(BlackBall)) {
+      values(thisIndex + 1)
+    } else {
+      IllegalColour
+    }
+  }
 }

@@ -18,10 +18,7 @@ import play.core.parsers.Multipart.FileInfo
 
 import scala.concurrent.{ExecutionContext, Future}
 import com.github.tototoshi.csv._
-import helpers.{AgeHandicaps, ScoreCalculator}
-import models.{AgeCat, Competitor, CourseClassType, EventData, InvalidRaceTime, PunchedControls, RaceTime, Scores, ValidRaceTime}
-import models.DataFileConstants._
-import models.RaceTime.fromString
+import helpers.CompetitorProcessor
 
 case class FormData(name: String)
 
@@ -96,7 +93,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
 
         val reader = CSVReader.open(file)
         val allData = reader.all.drop(1)
-        val data = getCompetitors(allData)
+        val data = CompetitorProcessor.getCompetitors(allData)
         reader.close()
         Files.deleteIfExists(file.toPath)
         data
@@ -115,32 +112,5 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     }
 
     Ok(s"File load result = ${str}")
-  }
-
-  private def getCompetitors(data: List[List[String]]): List[Competitor] = {
-    data.map{line =>
-      val numControls = line(NumSplits).toInt
-
-      val punchedControls = PunchedControls.getControlsFromData(numControls, line.drop(ControlCodesStart))
-
-      val ageCat = AgeCat.getAgeCat(line(Category))
-
-      val raceTime = fromString(line(StartTime), line(FinishTime))
-
-      val punchResults = ScoreCalculator.calcScoresForAllPunches(punchedControls)
-
-      val scores = punchResults.getFinalScores(raceTime, ageCat)
-
-      val comp = Competitor(line(CardNumbers).toLong, line(Name),
-        ageCat, line(Club),
-        CourseClassType.getCourseClass(line(CourseClass)),
-        raceTime,
-        punchedControls,
-        punchResults,
-        scores)
-
-      logger.info(s"Created: ${comp}")
-      comp
-    }
   }
 }

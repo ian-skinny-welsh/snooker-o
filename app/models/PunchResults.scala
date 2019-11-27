@@ -21,6 +21,8 @@ case class PunchResults(results: List[PunchResult]){
     }
   }
 
+  def +(that: PunchResults): PunchResults = PunchResults(this.results ++ that.results)
+
   override def toString: String = {
     results.foldLeft("PunchResults[\n")((acc, res) => acc + "\t" + res.toString +",\n") + "]"
   }
