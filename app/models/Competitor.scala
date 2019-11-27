@@ -1,6 +1,6 @@
 package models
 
-import helpers.AgeHandicaps
+import scala.Ordering.Double.TotalOrdering
 
 case class Competitor(siCard: Long,
                       name: String,
@@ -12,12 +12,15 @@ case class Competitor(siCard: Long,
                       punchResults: PunchResults,
                       scores: Scores) {
 
-  // TODO:  Deal with time penalties
-  // TODO:  Add tests for AgeHandicap helper
   // TODO:  FIND OUT WHY BOOTSTRAP HAS BROKEN THE TESTS
-  val score = (punchResults.getBasicScore) / AgeHandicaps.getHandicapForAge(ageCat)
+  val score = scores.finalScore
 
   override def toString: String = s"\nCompetitor(Name: $name SiCard: $siCard AgeCat: $ageCat Club: $club Class: $courseClass\n" +
     s"$raceTime \t$punchedControls \n$punchResults \n$scores\n\n"
 
+}
+
+object Competitor {
+  implicit def orderingByScoreThenName[A <: Competitor]: Ordering[A] =
+    Ordering.by(e => (e.score, e.name))
 }

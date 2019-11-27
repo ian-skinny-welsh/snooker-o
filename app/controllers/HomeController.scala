@@ -19,6 +19,7 @@ import play.core.parsers.Multipart.FileInfo
 import scala.concurrent.{ExecutionContext, Future}
 import com.github.tototoshi.csv._
 import helpers.CompetitorProcessor
+import models.Competitor
 
 case class FormData(name: String)
 
@@ -58,6 +59,10 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     Ok(views.html.upload_results(form))
   }
 
+
+  def resultsSummaryDisplay = Action { implicit request =>
+    Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
+  }
 
   type FilePartHandler[A] = FileInfo => Accumulator[ByteString, FilePart[A]]
 
@@ -103,14 +108,12 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
         s"The file '$filename' does not appear to contain csv data.  Please check and try again."
     }
 
-    val str = fileOption match {
-      case Some(comps: List[_]) => comps.foldLeft(s"${comps.size} competitors loaded:\n")((acc, elem) => acc + elem.toString)
+    fileOption match {
+      case Some(comps: List[_]) => Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
 
-      case Some(x: String) => x
+      case Some(x: String) => Ok(s"File load result = $x")
 
-      case _ => "no file"
+      case _ => Ok(s"File load result = no file")
     }
-
-    Ok(s"File load result = ${str}")
   }
 }

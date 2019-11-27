@@ -1,0 +1,28 @@
+@(results: List[Competitor])(implicit request: MessagesRequestHeader)
+
+@byCourse = @{results.groupBy(_.courseClass).toSeq.sortBy(_._1.toString)}
+
+@main("Results Summary") {
+  <div class="container">
+    <h1>Results summary by class</h1>
+
+    @helper.form(action = routes.HomeController.index) {
+      <dl class=" " id="results_summary">
+        @byCourse.map { case (courseClass, comps) =>
+          <h2> Class - @courseClass</h2>
+            <div  class="container">
+              @comps.map { comp =>
+                <dt>
+                <p><strong>@comp.name</strong> @comp.scores</p>
+                </dt>
+              }
+            </div>
+        }
+      </dl>    @helper.CSRF.formField
+      <div>
+        <input type="submit" id="toindex" value="Return to Homepage"/>
+      </div>
+    }
+  <br>
+  </div>
+}

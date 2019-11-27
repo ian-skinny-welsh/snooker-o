@@ -7,8 +7,12 @@ import models.{AgeCat, Competitor, CourseClassType, PunchResults, PunchedControl
 
 object CompetitorProcessor {
 
+  private var currentDataSet: List[Competitor] = List.empty
+
+  def getCurrentDataSet: List[Competitor] = currentDataSet
+
   def getCompetitors(data: List[List[String]]): List[Competitor] = {
-    data.map{line =>
+    currentDataSet = data.map{line =>
       val numControls = line(NumSplits).toInt
 
       val punchedControls = PunchedControls.getControlsFromData(numControls, line.drop(ControlCodesStart))
@@ -32,7 +36,9 @@ object CompetitorProcessor {
         scores)
 
       comp
-    }
+    }.sorted.reverse
+
+    currentDataSet
   }
 
   def processPunches(courseClass: CourseClassType, punchedControls: PunchedControls): PunchResults = {
