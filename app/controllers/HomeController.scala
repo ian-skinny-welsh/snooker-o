@@ -19,7 +19,7 @@ import play.core.parsers.Multipart.FileInfo
 import scala.concurrent.{ExecutionContext, Future}
 import com.github.tototoshi.csv._
 import helpers.CompetitorProcessor
-import models.Competitor
+import models.{Competitor, CourseClassType}
 
 case class FormData(name: String)
 
@@ -99,6 +99,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
         val reader = CSVReader.open(file)
         val allData = reader.all.drop(1)
         val data = CompetitorProcessor.getCompetitors(allData)
+        logger.info(s"getCompetitors produced: $data")
         reader.close()
         Files.deleteIfExists(file.toPath)
         data
@@ -109,7 +110,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     }
 
     fileOption match {
-      case Some(comps: List[_]) => Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
+      case Some(comps: Map[_,_]) => Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
 
       case Some(x: String) => Ok(s"File load result = $x")
 

@@ -3,28 +3,26 @@ package helpers
 import helpers.scorers.{AdultsScorer, OpenOrderScorer, Under16Scorer}
 import models.DataFileConstants.{CardNumbers, Category, Club, ControlCodesStart, CourseClass, FinishTime, Name, NumSplits, StartTime}
 import models.RaceTime.fromString
-import models.{AgeCat, Competitor, CourseClassType, PunchResults, PunchedControls}
+import models.{AgeCat, Competitor, CourseClassType, PlacedCompetitor, PunchResults, PunchedControls}
 
 object CompetitorProcessor {
 
-  private var currentDataSet: List[Competitor] = List.empty
+  private var currentDataSet: Map[CourseClassType, List[PlacedCompetitor]] = Map.empty
 
-  def getCurrentDataSet: List[Competitor] = currentDataSet
+  def getCurrentDataSet: Map[CourseClassType, List[PlacedCompetitor]] = currentDataSet
 
-  def getCompetitors(data: List[List[String]]): List[Competitor] = {
-    currentDataSet = data.map{line =>
+  def getResultsForClass(courseClassType: CourseClassType): List[PlacedCompetitor] = {
+    currentDataSet.getOrElse(courseClassType, List.empty)
+  }
+
+  def getCompetitors(data: List[List[String]]): Map[CourseClassType, List[PlacedCompetitor]] = {
+    val comps = data.map{line =>
       val numControls = line(NumSplits).toInt
-
       val punchedControls = PunchedControls.getControlsFromData(numControls, line.drop(ControlCodesStart))
-
       val ageCat = AgeCat.getAgeCat(line(Category))
-
       val courseClass = CourseClassType.getCourseClass(line(CourseClass))
-
       val raceTime = fromString(line(StartTime), line(FinishTime))
-
       val punchResults = processPunches(courseClass, punchedControls)
-
       val scores = punchResults.getFinalScores(raceTime, ageCat)
 
       val comp = Competitor(line(CardNumbers).toLong, line(Name),
@@ -38,7 +36,9 @@ object CompetitorProcessor {
       comp
     }.sorted.reverse
 
-    currentDataSet
+    val placedCompetitorsByClass = convertToPlacedCompetitors(comps)
+    currentDataSet = placedCompetitorsByClass
+    placedCompetitorsByClass
   }
 
   def processPunches(courseClass: CourseClassType, punchedControls: PunchedControls): PunchResults = {
@@ -49,5 +49,18 @@ object CompetitorProcessor {
 
       case CourseClassType.OpenOrder => OpenOrderScorer.calcScoresForAllPunches(punchedControls)
     }
+  }
+
+  def convertToPlacedCompetitors(comps: List[Competitor]): Map[CourseClassType, List[PlacedCompetitor]] = {
+    // convert to Seq courseClass -> List[Competitor]
+    val compsByClass = comps.groupBy(_.courseClass).toSeq.sortBy(_._1.toString)
+
+    compsByClass.map{ case (course,comps) =>
+      // number the competitors from 1 to NN within each courseClass
+      course -> comps.zip(LazyList from 1).map{
+        // then convert the competitor to a PlacedCompetitor
+        case (comp, place) => PlacedCompetitor(place, comp)
+      }
+    }.toMap
   }
 }

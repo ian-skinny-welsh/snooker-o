@@ -11,8 +11,7 @@ libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % Test
 libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.6"
 libraryDependencies ++= Seq(
-    "com.beachape" %% "enumeratum" % "1.5.13",
-    "org.webjars" % "bootstrap" % "4.3.1"
+    "com.beachape" %% "enumeratum" % "1.5.13"
 )
 
 libraryDependencies += specs2 % Test

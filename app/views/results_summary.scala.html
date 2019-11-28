@@ -1,24 +1,47 @@
-@(results: List[Competitor])(implicit request: MessagesRequestHeader)
-
-@byCourse = @{results.groupBy(_.courseClass).toSeq.sortBy(_._1.toString)}
+@(results: Map[CourseClassType, List[PlacedCompetitor]])(implicit request: MessagesRequestHeader)
 
 @main("Results Summary") {
   <div class="container">
     <h1>Results summary by class</h1>
 
     @helper.form(action = routes.HomeController.index) {
-      <dl class=" " id="results_summary">
-        @byCourse.map { case (courseClass, comps) =>
-          <h2> Class - @courseClass</h2>
-            <div  class="container">
-              @comps.map { comp =>
-                <dt>
-                <p><strong>@comp.name</strong> @comp.scores</p>
-                </dt>
-              }
-            </div>
-        }
-      </dl>    @helper.CSRF.formField
+      <fieldset id="results_summary">
+        <legend>Course Results</legend>
+
+        @results.toSeq.map { case (courseClass, comps) =>
+        <div class="resultsblock-title">
+          <h2>@courseClass</h2>
+        </div>
+        <table id="control_@courseClass" class="data_wide">
+          <thead>
+            <tr>
+              <th class="left">Pos</th>
+              <th class="left">Name</th>
+              <th class="left">Club</th>
+              <th class="centre">Age Class</th>
+              <th class="centre">Controls</th>
+              <th class="right">Time</th>
+              <th class="right">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @comps.map { comp =>
+              <tr>
+                <td class="left">@comp.place</td>
+                <td class="left">@comp.competitor.name</td>
+                <td class="left">@comp.competitor.club</td>
+                <td class="centre">@comp.competitor.ageCat</td>
+                <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
+                <td class="right">@comp.competitor.raceTime.timeTaken</td>
+                <td class="right">@comp.competitor.scores.getFinalScore</td>
+               </tr>
+            }
+
+            </tbody>
+            </table>
+          }
+
+      </fieldset>    @helper.CSRF.formField
       <div>
         <input type="submit" id="toindex" value="Return to Homepage"/>
       </div>
