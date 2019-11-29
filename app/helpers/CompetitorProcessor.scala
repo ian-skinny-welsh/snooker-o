@@ -20,7 +20,7 @@ object CompetitorProcessor {
       val numControls = line(NumSplits).toInt
       val punchedControls = PunchedControls.getControlsFromData(numControls, line.drop(ControlCodesStart))
       val ageCat = AgeCat.getAgeCat(line(Category))
-      val courseClass = CourseClassType.getCourseClass(line(CourseClass))
+      val courseClass = CourseClassType.fromString(line(CourseClass))
       val raceTime = fromString(line(StartTime), line(FinishTime))
       val punchResults = processPunches(courseClass, punchedControls)
       val scores = punchResults.getFinalScores(raceTime, ageCat)

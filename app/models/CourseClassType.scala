@@ -11,7 +11,7 @@ object CourseClassType extends Enum[CourseClassType] {
 
   val values = findValues
 
-  def getCourseClass(str: String): CourseClassType = {
+  def fromString(str: String): CourseClassType = {
     CourseClassType.withNameInsensitiveOption(str.replaceAll(" ", "")) match {
       case Some(cc) => cc
       case None => OpenOrder

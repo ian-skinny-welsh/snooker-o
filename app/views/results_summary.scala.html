@@ -20,21 +20,25 @@
               <th class="left">Club</th>
               <th class="centre">Age Class</th>
               <th class="centre">Controls</th>
-              <th class="right">Time</th>
+              <th class="centre">Time</th>
               <th class="right">Score</th>
+              <th class="centre">Details</th>
             </tr>
           </thead>
           <tbody>
             @comps.map { comp =>
-              <tr>
-                <td class="left">@comp.place</td>
-                <td class="left">@comp.competitor.name</td>
-                <td class="left">@comp.competitor.club</td>
-                <td class="centre">@comp.competitor.ageCat</td>
-                <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
-                <td class="right">@comp.competitor.raceTime.timeTaken</td>
-                <td class="right">@comp.competitor.scores.getFinalScore</td>
-               </tr>
+                @defining(routes.HomeController.resultsDetailedDisplay(courseClass.toString, comp.place)) { detailsUrl =>
+                  <tr>
+                    <td class="left">@comp.place</td>
+                    <td class="left">@comp.competitor.name</td>
+                    <td class="left">@comp.competitor.club</td>
+                    <td class="centre">@comp.competitor.ageCat</td>
+                    <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
+                    <td class="centre">@comp.competitor.raceTime.timeTaken</td>
+                    <td class="right">@comp.competitor.scores.getFinalScore</td>
+                    <td class="centre"><a href="@detailsUrl">@comp.competitor.name</a></td>
+                  </tr>
+                }
             }
 
             </tbody>
@@ -43,7 +47,7 @@
 
       </fieldset>    @helper.CSRF.formField
       <div>
-        <input type="submit" id="toindex" value="Return to Homepage"/>
+        <input class = "btn btn-primary" type="submit" id="toindex" value="Return to Homepage"/>
       </div>
     }
   <br>

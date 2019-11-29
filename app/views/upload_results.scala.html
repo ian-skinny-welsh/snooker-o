@@ -8,19 +8,24 @@
         <h2>Event configuration</h2>
         <p>TODO:  Add config options so that controls can be allocated to each 'Ball'</p>
 
-        <h2>Select your SI Timing results file</h2>
 
     @helper.form(action = routes.HomeController.upload, Symbol("enctype") -> "multipart/form-data") {
-      <dl class=" " id="results_upload_field">
-        <dt>
-          <label for="results_upload">This must be a csv export from a score event that uses the controls set up in the previous section</label>
-        </dt>
+      <div class="card w-75" id="results_upload_field">
 
-        <dd>
-          <input type="file" id="results_upload" name="results_upload" value="Select file...">
-        </dd>
-      </dl>    @helper.CSRF.formField
-      <input type="submit" id="upload" value="Upload the file"/>
+        <h2 class="card-header">Select your SI Timing results file</h2>
+
+        <div class="card-body">
+          <label class="card-title alert alert-primary" for="results_upload">This must be a csv file that was exported from a score event using the controls set up in the previous section</label>
+          <p>
+            <input type="file" id="results_upload" name="results_upload" value="Select file..." class="btn btn-secondary">
+          </p>
+        </div>
+      </div>    @helper.CSRF.formField
+
+      <br>
+      <div class="card w-75" id="results_upload_field2">
+        <input type="submit" id="upload" value="Process your chosen file" class="btn btn-primary"/>
+      </div>
     }
   </div>
 }

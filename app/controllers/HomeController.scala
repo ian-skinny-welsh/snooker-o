@@ -64,6 +64,14 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
   }
 
+  def resultsDetailedDisplay(course: String, place: Int) = Action { implicit request =>
+    val courseClassType = CourseClassType.fromString(course)
+
+    val comp = CompetitorProcessor.getResultsForClass(courseClassType)(place - 1)
+
+    Ok(views.html.results_detailed(courseClassType, comp))
+  }
+
   type FilePartHandler[A] = FileInfo => Accumulator[ByteString, FilePart[A]]
 
   /**
