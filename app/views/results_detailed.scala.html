@@ -1,37 +1,32 @@
 @import helpers.AgeHandicaps
+@import models.BallColour
 
 @(courseClass: CourseClassType, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
 
 @numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
 
 @main("Detailed results") {
-  <div class="container">
-    <h1>Results for @comp.competitor.name</h1>
 
-    @helper.form(action = routes.HomeController.resultsSummaryDisplay) {
-      <fieldset id="results_detailed">
-        <legend>Detailed Results</legend>
+      <div class="col-8">
+        <h1>Detailed Results</h1>
 
-        <div class="resultsblock-title">
-          <h2>Course - @courseClass</h2>
+        <div class="alert alert-primary" role="alert">
+          <h3>Course - @courseClass - @comp.competitor.name</h3>
         </div>
 
-        <br>
-        <h3>Competitor summary</h3>
-
-        <table id="summary_@courseClass" class="data_wide">
+        <table id="summary_@courseClass" class="table table-striped table-sm">
           <thead>
             <tr>
-              <th class="left">Pos</th>
-              <th class="left">Name</th>
-              <th class="centre">Club</th>
-              <th class="centre">Age Class</th>
-              <th class="centre">Controls</th>
-              <th class="centre">Time</th>
-              <th class="centre">Punch Points</th>
-              <th class="centre">Penalty Points</th>
-              <th class="centre">Age Factor</th>
-              <th class="centre">Final Score</th>
+              <th scope="col" class="left">Pos</th>
+              <th scope="col" class="left">Name</th>
+              <th scope="col" class="centre">Club</th>
+              <th scope="col" class="centre">Age Class</th>
+              <th scope="col" class="centre">Controls</th>
+              <th scope="col" class="centre">Time</th>
+              <th scope="col" class="centre">Time Penalty</th>
+              <th scope="col" class="centre">Punch Points</th>
+              <th scope="col" class="centre">Age Factor</th>
+              <th scope="col" class="centre">Final Score</th>
             </tr>
           </thead>
           <tbody>
@@ -42,10 +37,10 @@
                 <td class="centre">@comp.competitor.ageCat</td>
                 <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
                 <td class="centre">@comp.competitor.raceTime.timeTaken</td>
-                <td class="centre">@comp.competitor.scores.punchScore</td>
                 @defining(if(comp.competitor.scores.timePenalty > 0 )s"-${comp.competitor.scores.timePenalty}" else "0") { penalty =>
                   <td class="centre">@penalty</td>
                 }
+                <td class="centre">@comp.competitor.scores.punchScore</td>
                 <td class="centre">@AgeHandicaps.getHandicapForAge(comp.competitor.ageCat)</td>
                 <td class="centre">@comp.competitor.scores.getFinalScore</td>
               </tr>
@@ -53,38 +48,38 @@
         </table>
 
         <br>
-        <h3>Control breakdown</h3>
+        <div class="alert alert-primary" role="alert">
+          <h3>Control breakdown</h3>
+        </div>
 
-        <table id="details_@courseClass" class="data_wide">
-          <thead>
-            <tr>
-              <th class="left">No.</th>
-              <th class="left">Control</th>
-              <th class="centre">Colour</th>
-              <th class="centre">Scored</th>
-              <th class="left">Explanation</th>
-           </tr>
-          </thead>
-          <tbody>
-            @numberedPunches.map { case (punchData, num) =>
+          <table id="details_@courseClass" class="table table-striped table-sm">
+            <thead>
               <tr>
-                @defining(s"images/${punchData.ball.toString.replace(' ','_')}.png"){ ballImage =>
+                <th scope="col" class="left">No.</th>
+                <th scope="col" class="left">Control</th>
+                <th scope="col" class="centre">Colour</th>
+                <th scope="col" class="centre">Scored</th>
+                <th scope="col" class="left">Explanation</th>
+             </tr>
+            </thead>
+            <tbody>
+              @numberedPunches.map { case (punchData, num) =>
+                <tr>
                   <td class="left">@num</td>
                   <td class="left">@punchData.controlCode</td>
-                  <td class="right">@punchData.ball <img src="@routes.Assets.versioned(ballImage)"></td>
+                  <td class="right">@punchData.ball @punchData.ball.getBallImage</td>
                   <td class="centre">@punchData.score</td>
                   <td class="left">@punchData.description</td>
-                }
-              </tr>
+                </tr>
+            }
             </tbody>
-          }
-        </table>
+          </table>
 
-      </fieldset>    @helper.CSRF.formField
-      <div>
-        <input type="submit" id="toindex" value="Return to Results summary" class="btn btn-primary"/>
+        @helper.form(action = routes.ResultsController.resultsSummaryDisplay) {
+          <br>
+          <div>
+            <input type="submit" id="toindex" value="Return to Results summary" class="btn btn-primary"/>
+          </div>
+        }
       </div>
-    }
-  <br>
-  </div>
 }

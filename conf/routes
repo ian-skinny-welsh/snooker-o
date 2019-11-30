@@ -2,16 +2,22 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Static info pages
 GET     /                                  controllers.HomeController.index
-GET     /rules                             controllers.HomeController.rulesDisplay
+GET     /adult-rules                       controllers.HomeController.adultRulesDisplay
+GET     /open-rules                        controllers.HomeController.openRulesDisplay
+GET     /under16-rules                     controllers.HomeController.under16RulesDisplay
 
 GET     /upload-results                    controllers.HomeController.uploadDisplay
-
 POST    /upload                            controllers.HomeController.upload
 
-GET     /results-summary                   controllers.HomeController.resultsSummaryDisplay
+# Setup and config pages
+GET     /setup-controls                    controllers.SetupController.setupControlsDisplay
+POST    /setup-controls                    controllers.SetupController.setupControlsSubmit
 
-GET     /results-detailed/:course/:place   controllers.HomeController.resultsDetailedDisplay(course: String, place: Int)
+# Results pages
+GET     /results-summary                   controllers.ResultsController.resultsSummaryDisplay
+GET     /results-detailed/:course/:place   controllers.ResultsController.resultsDetailedDisplay(course: String, place: Int)
 
 
 # Map static resources from the /public folder to the /assets URL path

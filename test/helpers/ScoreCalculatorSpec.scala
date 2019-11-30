@@ -1,6 +1,6 @@
 package helpers
 
-import helpers.scorers.AdultsScorer
+import helpers.scorers.{AdultsScorer, OpenOrderScorer}
 import org.specs2.mock._
 import org.specs2.mutable._
 import models.BallColour._
@@ -57,7 +57,7 @@ class ScoreCalculatorSpec extends Specification with Mockito {
     "Score 10 for Red - another Red" in {
       val testData = PunchedControls(2, List[ControlCode](RED_1, RED_2))
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 10
+      res.getBasicScore === -30
     }
 
     "Score 30 for Red - Yellow" in {
@@ -125,7 +125,7 @@ class ScoreCalculatorSpec extends Specification with Mockito {
       res.getBasicScore === 810
     }
 
-    "Score 540 for all the reds but all colours in the wrong order" in {
+    "Score 300 for all the reds but all colours in the wrong order" in {
       val testData = PunchedControls(4, List[ControlCode](
         RED_1, YELLOW, //30
         RED_2, GREEN,  //40
@@ -134,15 +134,20 @@ class ScoreCalculatorSpec extends Specification with Mockito {
         RED_5, PINK,   //70
         RED_6, BLACK,  //80
         RED_7, BLACK,  //62.5
-        RED_9, PINK,   //55
-        RED_10, BLUE,  //47.5
-        RED_8, BLACK,  //45
-        GREEN, YELLOW, BROWN, BLUE, PINK, BLACK)) //0 = 540
+        RED_8, PINK,   //55
+        RED_9, BLUE,  //47.5
+        RED_10, BLACK,  //45 = 540
+        GREEN,  //-40
+        YELLOW, // 20
+        BROWN,  //-40
+        BLUE,   //-50
+        PINK,   //-60
+        BLACK)) //-70 = 540
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 540
+      res.getBasicScore === 300
     }
 
-    "Score 560 for all the reds but only yellow in the right order" in {
+    "Score 770 for all the reds but mispunched Brown in the right order" in {
       val testData = PunchedControls(4, List[ControlCode](
         RED_1, YELLOW, //30
         RED_2, GREEN,  //40
@@ -153,36 +158,42 @@ class ScoreCalculatorSpec extends Specification with Mockito {
         RED_7, BLACK,  //62.5
         RED_9, PINK,   //55
         RED_10, BLUE,  //47.5
-        RED_8, BLACK,  //45
-        YELLOW, BROWN, GREEN, BROWN, BLUE, PINK, BLACK)) //0 = 560
+        RED_8, BLACK,  //45 = 540
+        YELLOW, // 20
+        BROWN,  //-40
+        GREEN,  // 30
+        BROWN,  // 40
+        BLUE,   // 50
+        PINK,   // 60
+        BLACK)) // 70 = 770
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 560
+      res.getBasicScore === 770
     }
   }
 
   "Scorer - Red, colour, same red, any colour" should {
-    "Score 30 for Red, Yellow, Same Red, Pink" in {
-      val testData = PunchedControls(4, List[ControlCode](RED_1, YELLOW, RED_1, PINK))
+    "Score 30 for Red, Yellow, Same Red, Red, Green" in {
+      val testData = PunchedControls(4, List[ControlCode](RED_1, YELLOW, RED_1, RED_2,GREEN))
       val res = AdultsScorer.calcScoresForAllPunches(testData)
       res.getBasicScore === 30
     }
 
-    "Score 40 for Red, Yellow, Same Red, Pink, Red" in {
+    "Score -60 for Red, Yellow, Same Red, Pink, Red" in {
       val testData = PunchedControls(5, List[ControlCode](RED_1, YELLOW, RED_1, PINK, RED_2))
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 40
+      res.getBasicScore === -60
     }
 
-    "Score 100 for Red, Yellow, Same Red, Pink, Red, Pink" in {
+    "Score 0 for Red, Yellow, Same Red, Pink, Red, Pink" in {
       val testData = PunchedControls(6, List[ControlCode](RED_1, YELLOW, RED_1, PINK, RED_2, PINK))
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 100
+      res.getBasicScore === 0
     }
 
-    "Score 100 for Red, Yellow, Same Red, Pink, Red, Pink, repeated Red, Black" in {
-      val testData = PunchedControls(6, List[ControlCode](RED_1, YELLOW, RED_1, PINK, RED_2, PINK, RED_2, BLACK))
+    "Score 45 for Red, Yellow, Same Red, Pink, Red, Pink, repeated Red, Black" in {
+      val testData = PunchedControls(6, List[ControlCode](RED_1, YELLOW, RED_2, PINK, RED_3, PINK, RED_3, BLACK))
       val res = AdultsScorer.calcScoresForAllPunches(testData)
-      res.getBasicScore === 100
+      res.getBasicScore === 45
     }
   }
 

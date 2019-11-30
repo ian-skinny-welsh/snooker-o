@@ -4,9 +4,13 @@ import models.BallColour._
 import models.{BallColour, ControlCode}
 
 object BallControlsInUse {
-  private val balls: Map[BallColour, List[ControlCode]] = getDefaultData
+  private var balls: Map[BallColour, List[ControlCode]] = getDefaultData
 
   def getBallControlsInUse: Map[BallColour, List[ControlCode]] = balls
+
+  def setBallControlsInUse(newData: Map[BallColour, List[ControlCode]]): Unit = {
+    newData.map{case (colour, list) => balls = balls + (colour ->list) }
+  }
 
   def getNumberOfReds: Int = {
     getControlsForBall(RedBall).size

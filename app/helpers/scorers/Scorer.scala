@@ -55,13 +55,13 @@ trait Scorer {
 
     thisBallColour match {
       case RedBall =>
-        processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, 0, "This 'Red' was punched while clearing the colours"), remaining.tail, requiredColour)
+        processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, RedBall.getPenaltyValue, "This 'Red' was punched while clearing the colours"), remaining.tail, requiredColour)
 
       case ballX if requiredColour == ballX =>
         processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, thisBallColour.getPointsValue, s"Valid '${thisBallColour.toString}'"), remaining.tail, BallColour.getNextColour(ballX))
 
       case _ =>
-        processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, 0, s"'${thisBallColour.toString}' in wrong sequence when clearing the colours"), remaining.tail, UnknownBall)
+        processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, thisBallColour.getPenaltyValue, s"'${thisBallColour.toString}' in wrong sequence when clearing the colours"), remaining.tail, requiredColour)
     }
   }
 }

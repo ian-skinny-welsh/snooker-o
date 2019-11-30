@@ -1,0 +1,28 @@
+@()(implicit request: MessagesRequestHeader)
+
+@main("Open class Rules for Snooker O") {
+      <div class="col-8">
+        <h1>Rules for the Open class</h1>
+
+        <p>This is essentially a normal Score event:</p>
+        <ol>
+          <li>Collect all the controls in any order you like - do not punch any control more than once as that will cost you penalty points. </li>
+          <li>The time limit is 60 minutes with punching start and punching finish. Maximum points gained in the minimum time wins. </li>
+          <li>The basic 'punch' score is adjusted by mispunch and time penalties and then by the BOF recommended age/sex handicap values to get an overall score.</li>
+          <li>Lateness penalties of 20 points per minute and part minute will be deducted if you return after the maximum allowed time. </li>
+          <li>As the event is loosely based on the scoring format of snooker. There are 16 ‘balls’, 10 reds and six different colours.
+            Red balls are worth 10 points, yellow 20, green 30, brown 40, blue 50, pink 60 and black 70. Controls representing the balls are pre-marked
+            on the map in the correct colour, control code and the nominal points value.</li>
+
+        </ol>
+
+        <br>
+        @hints(0)
+
+        @rulesCards()
+      </div>
+
+      <div class="col-2">
+          <!-- Empty pace holder column -->
+      </div>
+}
