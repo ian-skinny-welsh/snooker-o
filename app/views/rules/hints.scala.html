@@ -1,0 +1,10 @@
+@(punchCount: Int)(implicit request: MessagesRequestHeader)
+
+  <h1>Hints</h1>
+  <p>Unless your memory is good we recommend taking a pen and marking off the Reds on your map as you collect them to avoid repeat punches
+    or missing any of them out.</p>
+  @if(punchCount > 0){
+    <p>The minimum number of punches needed to clear all the balls correctly will be @punchCount. The hire dibbers have a maximum capacity of 32 punches.
+      You can therefore make one or two mispunches only or risk running out of punch capacity on your card before completion- Plan your strategy
+      and punch carefully – GOOD LUCK!</p>
+  }

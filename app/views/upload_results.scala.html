@@ -1,21 +1,36 @@
 @(form: Form[controllers.FormData])(implicit request: MessagesRequestHeader)
 
 @main("Welcome to Snooker O") {
-  <div class="container">
+  <div class="col-8">
     <h1>Upload your results file</h1>
-        <p>In SI-Timing, export </p>
+        <p>To export your event results from SiTiming:</p>
+        <ul>
+          <li>Use the up icon on the left to navigate to the top level of the event in SI</li>
+          <li>Select 'Results' from the menu</li>
+          <li>Select 'Export Results' from the menu</li>
+          <li>Select 'Processable CSV Results' from the menu</li>
+          <li>Select the folder to save to and set the file name</li>
+          <li>Ensure the 'Delimiter' is set to 'Comma'</li>
+          <li>Ensure the 'Encoding' is set to 'Western European (Windows)'</li>
+          <li>Select the 'Write file' button</li>
+        </ul>
 
-        <h2>Event configuration</h2>
-        <p>TODO:  Add config options so that controls can be allocated to each 'Ball'</p>
+        <h2>Future features</h2>
+        <ul>
+          <li>Add the ability to select the number of reds</li>
+          <li>Add the ability to pick the control number for each 'Ball'</li>
+          <li>Provide a save function to create HTML files for publishing</li>
+
+        </ul>
 
 
     @helper.form(action = routes.HomeController.upload, Symbol("enctype") -> "multipart/form-data") {
-      <div class="card w-75" id="results_upload_field">
+      <div id="results_upload_field">
 
-        <h2 class="card-header">Select your SI Timing results file</h2>
+        <h2>Select your SI Timing results file</h2>
 
-        <div class="card-body">
-          <label class="card-title alert alert-primary" for="results_upload">This must be a csv file that was exported from a score event using the controls set up in the previous section</label>
+        <div>
+          <label for="results_upload">This must be a csv file that was exported from SiTiming as described above</label>
           <p>
             <input type="file" id="results_upload" name="results_upload" value="Select file..." class="btn btn-secondary">
           </p>
@@ -23,8 +38,8 @@
       </div>    @helper.CSRF.formField
 
       <br>
-      <div class="card w-75" id="results_upload_field2">
-        <input type="submit" id="upload" value="Process your chosen file" class="btn btn-primary"/>
+      <div id="results_upload_field2">
+        <input type="submit" id="upload" value="Process your chosen file" class="btn btn-primary btn-lg"/>
       </div>
     }
   </div>

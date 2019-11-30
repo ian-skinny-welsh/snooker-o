@@ -1,0 +1,20 @@
+@()(implicit request: MessagesRequestHeader)
+
+    <h2>Basic rules</h2>
+    <ol>
+      <li>This is a score event with time a limit of 60 minutes with a punching start and punching finish.</li>
+      <li>The winner is the competitor with maximum points gained in the minimum time.</li>
+
+      <li>The basic 'punch' score is adjusted by mispunch and time penalties and then by the BOF recommended age/sex handicap values to get an overall score.</li>
+      <ul>
+        <li>Lateness penalties of 20 points per minute and part minute will be deducted if you return after the maximum allowed time.</li>
+        <li>A mispunched control/ball will cost you 40 points or the value of the 'ball'; whichever is the higher cost.</li>
+        <li>A 'Red' is mispunched if it is punched more than once, punched when a colour is required, or if it is punched while clearing the colours.</li>
+        <li>A 'Colour' is mispunched if it is punched when a Red is required or is punched out of sequence when clearing the colours.</li>
+      </ul>
+
+      <li>As the event is loosely based on the scoring format of snooker. There are 16 ‘balls’, 10 reds and six different colours.
+        Red balls are worth 10 points, yellow 20, green 30, brown 40, blue 50, pink 60 and black 70. Controls representing the balls are pre-marked
+        on the map in the correct colour, control code and the nominal points value.</li>
+    </ol>
+

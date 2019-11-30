@@ -46,8 +46,16 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     Ok(views.html.index())
   }
 
-  def rulesDisplay = Action { implicit request =>
-    Ok(views.html.rules())
+  def adultRulesDisplay = Action { implicit request =>
+    Ok(views.html.rules.adultRules())
+  }
+
+  def openRulesDisplay = Action { implicit request =>
+    Ok(views.html.rules.openRules())
+  }
+
+  def under16RulesDisplay = Action { implicit request =>
+    Ok(views.html.rules.under16Rules())
   }
 
   /**
@@ -57,19 +65,6 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
    */
   def uploadDisplay = Action { implicit request =>
     Ok(views.html.upload_results(form))
-  }
-
-
-  def resultsSummaryDisplay = Action { implicit request =>
-    Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
-  }
-
-  def resultsDetailedDisplay(course: String, place: Int) = Action { implicit request =>
-    val courseClassType = CourseClassType.fromString(course)
-
-    val comp = CompetitorProcessor.getResultsForClass(courseClassType)(place - 1)
-
-    Ok(views.html.results_detailed(courseClassType, comp))
   }
 
   type FilePartHandler[A] = FileInfo => Accumulator[ByteString, FilePart[A]]
@@ -89,7 +84,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
       val accumulator: Accumulator[ByteString, IOResult] = Accumulator(fileSink)
       accumulator.map {
         case IOResult(count, status) =>
-          logger.info(s"count = $count, status = $status")
+          logger.debug(s"count = $count, status = $status")
           FilePart(partName, filename, contentType, path.toFile)
       }
   }
@@ -107,13 +102,13 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
         val reader = CSVReader.open(file)
         val allData = reader.all.drop(1)
         val data = CompetitorProcessor.getCompetitors(allData)
-        logger.info(s"getCompetitors produced: $data")
+        // logger.info(s"getCompetitors produced: $data")
         reader.close()
         Files.deleteIfExists(file.toPath)
         data
 
       case FilePart(key, filename, contentType, file, fileSize, dispositionType) =>
-        logger.info(s"Rejected fil: key = $key, filename = $filename, contentType = $contentType, file = $file, fileSize = $fileSize, dispositionType = $dispositionType")
+        logger.debug(s"Rejected fil: key = $key, filename = $filename, contentType = $contentType, file = $file, fileSize = $fileSize, dispositionType = $dispositionType")
         s"The file '$filename' does not appear to contain csv data.  Please check and try again."
     }
 
