@@ -19,9 +19,7 @@ import play.core.parsers.Multipart.FileInfo
 import scala.concurrent.{ExecutionContext, Future}
 import com.github.tototoshi.csv._
 import helpers.CompetitorProcessor
-import models.{Competitor, CourseClassType}
-
-case class FormData(name: String)
+import models.FileNameForm
 
 /**
  * This controller handles a file upload.
@@ -32,12 +30,6 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
   extends MessagesAbstractController(cc) {
 
   private val logger = Logger(this.getClass)
-
-  val form = Form(
-    mapping(
-      "name" -> text
-    )(FormData.apply)(FormData.unapply)
-  )
 
   /**
    * Renders a start page.
@@ -63,8 +55,8 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
    *
    * @return
    */
-  def uploadDisplay = Action { implicit request =>
-    Ok(views.html.upload_results(form))
+  def importResultsDisplay = Action { implicit request =>
+    Ok(views.html.import_results(FileNameForm.form))
   }
 
   type FilePartHandler[A] = FileInfo => Accumulator[ByteString, FilePart[A]]
@@ -84,7 +76,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
       val accumulator: Accumulator[ByteString, IOResult] = Accumulator(fileSink)
       accumulator.map {
         case IOResult(count, status) =>
-          logger.debug(s"count = $count, status = $status")
+          logger.debug(s"count = $count, status = $status at: $path")
           FilePart(partName, filename, contentType, path.toFile)
       }
   }
@@ -94,8 +86,8 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
    *
    * @return
    */
-  def upload = Action(parse.multipartFormData(handleFilePartAsFile)) { implicit request =>
-    val fileOption = request.body.file("results_upload").map {
+  def importResultsSubmit = Action(parse.multipartFormData(handleFilePartAsFile)) { implicit request =>
+    val fileOption = request.body.file("import_results").map {
       case FilePart(key, filename, contentType, file, fileSize, dispositionType) if(filename.toString.contains("csv")) =>
         logger.info(s"key = $key, filename = $filename, contentType = $contentType, file = $file, fileSize = $fileSize, dispositionType = $dispositionType")
 
@@ -113,7 +105,7 @@ class HomeController @Inject() (cc:MessagesControllerComponents)
     }
 
     fileOption match {
-      case Some(comps: Map[_,_]) => Ok(views.html.results_summary(CompetitorProcessor.getCurrentDataSet))
+      case Some(comps: Map[_,_]) => Redirect(routes.ResultsController.summaryResultsDisplay)
 
       case Some(x: String) => Ok(s"File load result = $x")
 

@@ -1,0 +1,26 @@
+@import helpers.AgeHandicaps
+@import play.twirl.api.Html
+
+@(title: String, content: Html)(implicit request: MessagesRequestHeader)
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" media="screen" href="/assets/stylesheets/main.css">
+    <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png">
+    <script src="/assets/javascripts/hello.js" type="text/javascript"></script>
+
+    <title>@title</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row flex-xl d-flex justify-content-center">
+          @content
+      </div>
+    </div>
+  </body>
+</html>

@@ -8,16 +8,18 @@ GET     /adult-rules                       controllers.HomeController.adultRules
 GET     /open-rules                        controllers.HomeController.openRulesDisplay
 GET     /under16-rules                     controllers.HomeController.under16RulesDisplay
 
-GET     /upload-results                    controllers.HomeController.uploadDisplay
-POST    /upload                            controllers.HomeController.upload
+GET     /import-results                    controllers.HomeController.importResultsDisplay
+POST    /import-results                    controllers.HomeController.importResultsSubmit
 
 # Setup and config pages
 GET     /setup-controls                    controllers.SetupController.setupControlsDisplay
 POST    /setup-controls                    controllers.SetupController.setupControlsSubmit
 
 # Results pages
-GET     /results-summary                   controllers.ResultsController.resultsSummaryDisplay
-GET     /results-detailed/:course/:place   controllers.ResultsController.resultsDetailedDisplay(course: String, place: Int)
+GET     /results-summary                   controllers.ResultsController.summaryResultsDisplay
+GET     /results-detailed/:course/:place   controllers.ResultsController.detailedResultsDisplay(course: String, place: Int)
+GET     /results-export                    controllers.ResultsController.exportResultsDisplay
+POST    /results-export                    controllers.ResultsController.exportResultsSubmit
 
 
 # Map static resources from the /public folder to the /assets URL path

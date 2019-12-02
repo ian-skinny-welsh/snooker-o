@@ -1,17 +1,14 @@
 @import helpers.AgeHandicaps
-@import models.BallColour
 
 @(courseClass: CourseClassType, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
 
 @numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
 
-@main("Detailed results") {
-
       <div class="col-8">
         <h1>Detailed Results</h1>
 
         <div class="alert alert-primary" role="alert">
-          <h3>Course - @courseClass - @comp.competitor.name</h3>
+          <h3>Course - @courseClass - @comp.competitor.name - Place: @comp.place</h3>
         </div>
 
         <table id="summary_@courseClass" class="table table-striped table-sm">
@@ -75,11 +72,11 @@
             </tbody>
           </table>
 
-        @helper.form(action = routes.ResultsController.resultsSummaryDisplay) {
+        @helper.form(action = routes.ResultsController.summaryResultsDisplay) {
           <br>
           <div>
             <input type="submit" id="toindex" value="Return to Results summary" class="btn btn-primary"/>
           </div>
         }
       </div>
-}
+
