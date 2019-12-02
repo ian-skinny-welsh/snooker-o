@@ -36,4 +36,10 @@ object DataFileConstants {
 
   // Headers for a SI export file
   val SiHeaders: String = "RaceNumber,CardNumbers,MembershipNumbers,Name,Category,Club,Country,CourseClass,StartTime,FinishTime,RaceTime,NonCompetitive,Position,Status,Handicap,PenaltyScore,ManualScoreAdjust,FinalScore,HandicapTime,HandicapScore,AwardLevel,SiEntriesIDs,Eligibility,JourneyTime,ExcludedExcess,BehindTime,GenderDOB,NotUsed,NotUsed,NotUsed,NotUsed,NumSplits,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points,ControlCode,Split,Points"
+
+  // Constants for result files export
+  val SUMMARY_RESULTS_NAME = "summary-results.html"
+  val SUMMARY_RESULTS_TITLE = "Summary of Results by Class"
+  val DETAILED_RESULTS_PATH = "details"
+
 }

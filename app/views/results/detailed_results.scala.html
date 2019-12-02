@@ -1,0 +1,9 @@
+@import helpers.AgeHandicaps
+
+@(courseClass: CourseClassType, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
+
+@numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
+
+@main("Detailed results") {
+  @core.detailed_results_core(courseClass, comp)
+}

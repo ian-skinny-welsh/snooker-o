@@ -56,7 +56,7 @@ class SetupController @Inject() (cc:MessagesControllerComponents)
         val temp = newBallCtrlData.getAsMap
         BallControlsInUse.setBallControlsInUse(temp)
 
-        Redirect(routes.HomeController.uploadDisplay)
+        Redirect(routes.HomeController.importResultsDisplay)
       }
     )
   }

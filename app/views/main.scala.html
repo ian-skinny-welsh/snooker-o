@@ -18,41 +18,11 @@
     <body>
       <div class="container">
         <div class="row">
-          <div class="col-2" style="position: sticky">
-              <ul class="nav nav-list flex-column">
-                <li class="nav-header">Navigation</li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/">Homepage</a>
-                </li>
-                <li class="nav-header">Rules</li>
-                <li>
-                  <a class="nav-link" href="@routes.HomeController.adultRulesDisplay">Adult Rules</a>
-                </li>
-                <li>
-                  <a class="nav-link" href="@routes.HomeController.under16RulesDisplay">Under 16's Rules</a>
-                </li>
-                <li>
-                  <a class="nav-link" href="@routes.HomeController.openRulesDisplay">Open class Rules</a>
-                </li>
 
-                <li class="nav-header">Configuration</li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/setup-controls">Configuration</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="@routes.HomeController.uploadDisplay">Select results file</a>
-                </li>
-
-                <li class="nav-header">Results</li>
-                <li class="nav-item">
-                  <a class="@{if(CompetitorProcessor.getCurrentDataSet.isEmpty)"nav-link disabled" else "nav-link"}" href="@routes.ResultsController.resultsSummaryDisplay">Results summary</a>
-                </li>
-              </ul>
-
-          </div>
-        @* And here's where we render the `Html` object containing
-         * the page content. *@
-        @content
+          @navBar()
+          @* And here's where we render the `Html` object containing
+           * the page content. *@
+          @content
         </div>
       </div>
     </body>
