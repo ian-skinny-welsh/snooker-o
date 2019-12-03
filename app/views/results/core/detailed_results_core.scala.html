@@ -1,6 +1,6 @@
 @import helpers.AgeHandicaps
 
-@(courseClass: CourseClassType, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
+@(courseClass: CourseClassType, comp: PlacedCompetitor, forExport: Boolean = false, numEntries: Int = 1)(implicit request: MessagesRequestHeader)
 
 @numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
 
@@ -72,11 +72,23 @@
             </tbody>
           </table>
 
-        @helper.form(action = routes.ResultsController.summaryResultsDisplay) {
-          <br>
-          <div>
-            <input type="submit" id="toindex" value="Return to Results summary" class="btn btn-primary"/>
-          </div>
+        @if(forExport){
+          @if(comp.place < numEntries) {
+            @defining(s"${courseClass.entryName.toLowerCase}-${comp.place + 1}.html") { linkUrl =>
+              <a href="@linkUrl" class="btn btn-primary" ROLE="button">Next</a>
+            }
+          } else {
+            @defining(s"../summary-results.html#heading_${courseClass}") { linkUrl =>
+              <a href="@linkUrl" class="btn btn-warning" ROLE="button">Back to summary</a>
+            }
+          }
+        } else {
+          @helper.form(action = routes.ResultsController.summaryResultsDisplay) {
+            <br>
+            <div>
+              <input type="submit" id="toindex" value="Return to Results summary" class="btn btn-primary"/>
+            </div>
+          }
         }
       </div>
 
