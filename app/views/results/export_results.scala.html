@@ -5,33 +5,31 @@
 @main("Welcome to Snooker O") {
   <div class="col-8">
     <h1>Export your results</h1>
-        <p>Use this page to export your final results as HTML files for publishing on your ow site</p>
-
-        <h2>Future features</h2>
-        <ul>
-          <li>Add the ability to select the number of reds</li>
-          <li>Add the ability to pick the control number for each 'Ball'</li>
-          <li>Provide a save function to create HTML files for publishing</li>
-
-        </ul>
-
+        <p>Use this page to export your final results as HTML files for publishing on your own site</p>
 
     @helper.form(action = routes.ResultsController.exportResultsSubmit) {
       <div id="results_import_field">
 
-        <h2>Select your SI Timing results file</h2>
+        <h2>Select the export folder</h2>
 
         <div>
-          <label for="export_results">This must be a csv file that was exported from SiTiming as described above</label>
+          <label for="export_results">
+            Select the destination folder to export the results files to.
+          </label>
+          <div class="alert alert-danger">
+            <p>Sorry, this feature is still in development.</p>
+            <p>For now your files will be written to "C:\Orienteering" unless the permissions are blocked.</p>
+            <p>After the export, this page will go back to the summary results page.</p>
+          </div>
           <p>
-            <input type="file" id="export_results" name="export_results" value="Select file..." class="btn btn-secondary">
+            <input type="file" id="export_results" name="export_results" value="Select file..." class="btn btn-secondary" disabled>
           </p>
         </div>
       </div>    @helper.CSRF.formField
 
       <br>
       <div id="results_import_field2">
-        <input type="submit" id="upload" value="Process your chosen file" class="btn btn-primary btn-lg"/>
+        <input type="submit" id="upload" value="Export the results" class="btn btn-primary btn-lg"/>
       </div>
     }
   </div>
