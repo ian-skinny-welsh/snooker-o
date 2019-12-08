@@ -49,4 +49,17 @@ object BallControlsInUse {
 
     )
   }
+
+  def getControlsFromFileData(data: List[List[String]]): Map[BallColour, List[ControlCode]] = {
+    val controls = data.map{ line =>
+      val ballColour = BallColour.getBallFromName(line(0))
+
+      val controls = line.drop(1).map(ctrlNum => ControlCode(ctrlNum.trim.toInt))
+      (ballColour, controls)
+    }
+
+    val newControls = controls.toMap
+    setBallControlsInUse((newControls))
+    newControls
+  }
 }

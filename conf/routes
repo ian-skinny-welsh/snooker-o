@@ -8,11 +8,14 @@ GET     /adult-rules                       controllers.HomeController.adultRules
 GET     /open-rules                        controllers.HomeController.openRulesDisplay
 GET     /under16-rules                     controllers.HomeController.under16RulesDisplay
 
-GET     /import-results                    controllers.HomeController.importResultsDisplay
-POST    /import-results                    controllers.HomeController.importResultsSubmit
-
 # Setup and config pages
-GET     /setup-controls                    controllers.SetupController.setupControlsDisplay
+GET     /import-results                    controllers.SiImportController.importResultsDisplay
+POST    /import-results                    controllers.SiImportController.importResultsSubmit
+
+GET     /import-controls                   controllers.SetupController.importControlsDisplay
+POST    /import-controls                   controllers.SetupController.importControlsSubmit
+
+GET     /setup-controls                    controllers.SetupController.setupControlsDisplay(msg: String ?= "Enter a comma separated list of control numbers for each 'ball'")
 POST    /setup-controls                    controllers.SetupController.setupControlsSubmit
 
 # Results pages
@@ -21,6 +24,8 @@ GET     /results-detailed/:course/:place   controllers.ResultsController.detaile
 GET     /results-export                    controllers.ResultsController.exportResultsDisplay
 POST    /results-export                    controllers.ResultsController.exportResultsSubmit
 
+# Error pages
+GET     /error-page/:msg                   controllers.ErrorController.basicErrorDisplay(msg: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

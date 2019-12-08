@@ -1,6 +1,6 @@
 @import helper._
 
-@(formData: Form[ControlsForBalls])(implicit request: MessagesRequestHeader)
+@(formData: Form[ControlsForBalls], msg: String)(implicit request: MessagesRequestHeader)
 
 @main("Setup Controls") {
   <div class="col-8">
@@ -8,7 +8,7 @@
 
     @helper.form(action = routes.SetupController.setupControlsSubmit) {
         <div class="alert alert-primary" role="alert">
-          <p>Enter a comma separated list of control numbers for each 'ball'</p>
+          <p>@msg</p>
         </div>
 
       @inputTemplate("Red", formData("Red").value.getOrElse(""))

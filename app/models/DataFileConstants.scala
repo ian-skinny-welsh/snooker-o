@@ -1,7 +1,7 @@
 package models
 
 object DataFileConstants {
-// Indexes for the position of fields in the CSV file
+  // Indexes for the position of fields in the SiTiming CSV file
   val RaceNumber = 0
   val CardNumbers = 1
   val MembershipNumbers = 2
