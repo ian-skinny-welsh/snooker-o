@@ -1,5 +1,3 @@
-@import helpers.AgeHandicaps
-
 @(courseClass: CourseClassType, comp: PlacedCompetitor, forExport: Boolean = false, numEntries: Int = 1)(implicit request: MessagesRequestHeader)
 
 @numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
@@ -38,7 +36,7 @@
                   <td class="centre">@penalty</td>
                 }
                 <td class="centre">@comp.competitor.scores.punchScore</td>
-                <td class="centre">@AgeHandicaps.getHandicapForAge(comp.competitor.ageCat)</td>
+                <td class="centre">@comp.competitor.ageCat.getHandicapValue</td>
                 <td class="centre">@comp.competitor.scores.getFinalScore</td>
               </tr>
           </tbody>

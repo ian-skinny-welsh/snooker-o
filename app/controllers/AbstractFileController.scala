@@ -9,16 +9,10 @@ import akka.stream.IOResult
 import akka.stream.scaladsl._
 import akka.util.ByteString
 import play.api._
-import play.api.data.Form
-import play.api.data.Forms._
 import play.api.libs.streams._
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.mvc._
 import play.core.parsers.Multipart.FileInfo
-
-import scala.concurrent.{ExecutionContext, Future}
-import com.github.tototoshi.csv._
-import models.FileNameForm
 
 import scala.concurrent.{ExecutionContext, Future}
 

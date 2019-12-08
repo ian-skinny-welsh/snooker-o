@@ -2,9 +2,7 @@ package controllers
 
 import javax.inject._
 
-import akka.stream.scaladsl._
 import play.api._
-import play.api.libs.streams._
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
