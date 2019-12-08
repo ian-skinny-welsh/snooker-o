@@ -4,7 +4,7 @@ import java.io.{BufferedWriter, File, FileWriter}
 import java.nio.file.{Files, Path}
 import javax.inject._
 
-import helpers.Control._
+import helpers.ResourceManager._
 
 import akka.stream.IOResult
 import akka.stream.scaladsl._

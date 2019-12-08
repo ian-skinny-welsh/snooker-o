@@ -2,7 +2,7 @@ package helpers
 
 import scala.language.reflectiveCalls
 
-object Control {
+object ResourceManager {
   def using[A <: { def close(): Unit }, B](resource: A)(f: A => B): B =
     try {
       f(resource)

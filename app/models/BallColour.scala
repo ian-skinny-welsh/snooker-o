@@ -54,6 +54,13 @@ object BallColour extends Enum[BallColour] {
 
   val values = findValues
 
+  def getBallFromName(name: String): BallColour = {
+    BallColour.withNameOption(name) match {
+      case Some(bc) => bc
+      case None => UnknownBall
+    }
+  }
+
   def getNextColour(thisColour: BallColour): BallColour = {
     val thisIndex = BallColour.indexOf(thisColour)
     if(thisIndex < BallColour.indexOf(BlackBall)) {

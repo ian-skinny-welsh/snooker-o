@@ -1,0 +1,15 @@
+
+
+@(msg: String)(implicit request: MessagesRequestHeader)
+
+@main("Welcome to Snooker O") {
+    <div class="col-8">
+      <h1>An error has occurred</h1>
+
+      <p>Something went wrong.  Please use the message below to check if it was your data file</p>
+
+      <br>
+      <p class="alert alert-danger">@msg</p>
+
+    </div>
+}

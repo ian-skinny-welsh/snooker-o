@@ -12,13 +12,13 @@
 
       <p>Of course, all this is within the time limits of a Score event so there are penalties for being late.</p>
 
-      @rules.rulesCards()
+      <p>See the rules pages for a full description.</p>
 
       <br>
-      <h2>Setting up</h2>
+      <h2>Set up your configuration</h2>
 
       <div>
-        @helper.form(action = routes.SetupController.setupControlsDisplay) {
+        @helper.form(action = routes.SetupController.setupControlsDisplay()) {
           <input type="submit" id="upload" value="Continue" class="btn btn-primary"/>
         }
       </div>
