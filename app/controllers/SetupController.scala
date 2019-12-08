@@ -1,24 +1,18 @@
 package controllers
 
-import java.io.File
-import java.nio.file.{Files, Path}
+import java.nio.file.Files
 
 import javax.inject._
 
-import akka.stream.IOResult
-import akka.stream.scaladsl._
-import akka.util.ByteString
 import play.api._
 import play.api.data.Form
-import play.api.data.Forms._
-import play.api.libs.streams._
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.mvc._
-import play.core.parsers.Multipart.FileInfo
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 import com.github.tototoshi.csv._
-import helpers.{BallControlsInUse, CompetitorProcessor}
+
+import helpers.BallControlsInUse
 import models.BallColour.{BlackBall, BlueBall, BrownBall, GreenBall, PinkBall, RedBall, YellowBall}
 import models.{BallColour, ControlsForBalls}
 import models.FileNameForm

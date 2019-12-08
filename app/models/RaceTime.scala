@@ -18,16 +18,16 @@ trait RaceTime {
   override def toString: String = s"Start: $startTime Finish: $finishTime Time: $timeTaken"
 }
 
-case class ValidRaceTime(startTime: TimeValue, finishTime: TimeValue) extends RaceTime
-
-case class InvalidRaceTime(startTime: TimeValue, finishTime: TimeValue, st2: String, ft2: String) extends RaceTime {
-  override val timeTaken = TimeValue(0, 0, 0)
-
-  override def toString = s"**** Invalid times read from file **** Start: $st2, Finish: $ft2"
-}
-
 
 object RaceTime {
+
+  case class ValidRaceTime(startTime: TimeValue, finishTime: TimeValue) extends RaceTime
+
+  case class InvalidRaceTime(startTime: TimeValue, finishTime: TimeValue, st2: String, ft2: String) extends RaceTime {
+    override val timeTaken = TimeValue(0, 0, 0)
+
+    override def toString = s"**** Invalid times read from file **** Start: $st2, Finish: $ft2"
+  }
 
   implicit def fromString(start: String, finish: String): RaceTime = {
     val startTime: Option[TimeValue] = start

@@ -7,11 +7,11 @@ object EventData {
 
   private val defaultPenaltyPerMinute = 20
 
-  var inUSeValues:EventData = EventData(defaultTimeAllowed, defaultPenaltyPerMinute)
+  private var inUseValues:EventData = EventData(defaultTimeAllowed, defaultPenaltyPerMinute)
 
-  def getEventData = inUSeValues
+  def getEventData = inUseValues
 
   def setEventData(newTimeAllowed: TimeValue = defaultTimeAllowed, newPenaltyPerMin: Int = defaultPenaltyPerMinute) = {
-    inUSeValues = EventData(newTimeAllowed, newPenaltyPerMin)
+    inUseValues = EventData(newTimeAllowed, newPenaltyPerMin)
   }
 }

@@ -1,26 +1,15 @@
 package controllers
 
 import java.io.{BufferedWriter, File, FileWriter}
-import java.nio.file.{Files, Path}
 import javax.inject._
 
-import helpers.ResourceManager._
-
-import akka.stream.IOResult
-import akka.stream.scaladsl._
-import akka.util.ByteString
 import play.api._
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.libs.streams._
-import play.api.mvc.MultipartFormData.FilePart
 import play.api.mvc._
-import play.core.parsers.Multipart.FileInfo
-import play.twirl.api.Html
 import com.typesafe.config._
 
 import scala.concurrent.{ExecutionContext, Future}
 
+import helpers.ResourceManager._
 import helpers.CompetitorProcessor
 import models.{FileNameForm, CourseClassType}
 import models.DataFileConstants._
@@ -95,5 +84,3 @@ class ResultsController @Inject() (cc:MessagesControllerComponents)
     logger.warn(s"Does directory exist: ${subDir.exists()}")
   }
 }
-
-// TODO: Refactor RaceTime - too many classes in one file.

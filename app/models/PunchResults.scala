@@ -1,6 +1,6 @@
 package models
 
-import helpers.AgeHandicaps
+import models.RaceTime.{ ValidRaceTime, InvalidRaceTime }
 
 case class PunchResults(results: List[PunchResult]){
 
@@ -13,7 +13,7 @@ case class PunchResults(results: List[PunchResult]){
     raceTime match {
       case rt: ValidRaceTime =>
         val penalty = rt.getTimePenaltyPoints (eventData)
-        Scores (punchScore, penalty, (punchScore - penalty) / AgeHandicaps.getHandicapForAge (ageCat) )
+        Scores (punchScore, penalty, (punchScore - penalty) / ageCat.getHandicapValue )
 
       case rt: InvalidRaceTime =>Scores(punchScore, 0, 0)
 
