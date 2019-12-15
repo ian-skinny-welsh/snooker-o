@@ -1,13 +1,30 @@
 package helpers
 
 import helpers.scorers.{AdultsScorer, OpenOrderScorer, Under16Scorer}
+import models.BallColour.{IllegalColour, RedBall, UnknownBall}
 import models.DataFileConstants.{CardNumbers, Category, Club, ControlCodesStart, CourseClass, FinishTime, Name, NumSplits, StartTime}
 import models.RaceTime.fromString
-import models.{AgeCat, Competitor, CourseClassType, PlacedCompetitor, PunchResults, PunchedControls}
+import models.{AgeCat, BallColour, Competitor, CourseClassType, PlacedCompetitor, PunchResults, PunchedControls}
 
 object CompetitorProcessor {
 
+  private var currentRawData: List[List[String]] = List.empty
+
   private var currentDataSet: Map[CourseClassType, List[PlacedCompetitor]] = Map.empty
+
+  def getCsvData: List[List[String]] = currentRawData
+
+  def setImportedCsvData(data: List[List[String]]):BallColour = {
+    currentRawData = data
+    var result: BallColour = RedBall
+    try{
+      getCompetitors(data)
+    } catch {
+      case _: Throwable => result = UnknownBall
+    }
+
+    result
+  }
 
   def getCurrentDataSet: Map[CourseClassType, List[PlacedCompetitor]] = currentDataSet
 

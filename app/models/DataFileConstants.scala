@@ -41,5 +41,6 @@ object DataFileConstants {
   val SUMMARY_RESULTS_NAME = "summary-results.html"
   val SUMMARY_RESULTS_TITLE = "Summary of Results by Class"
   val DETAILED_RESULTS_PATH = "details"
+  val CSV_RESULTS_NAME = "exported-results.csv"
 
 }

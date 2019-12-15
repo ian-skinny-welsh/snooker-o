@@ -73,13 +73,14 @@
         @if(forExport){
           @if(comp.place < numEntries) {
             @defining(s"${courseClass.entryName.toLowerCase}-${comp.place + 1}.html") { linkUrl =>
-              <a href="@linkUrl" class="btn btn-primary" ROLE="button">Next</a>
-            }
-          } else {
-            @defining(s"../summary-results.html#heading_${courseClass}") { linkUrl =>
-              <a href="@linkUrl" class="btn btn-warning" ROLE="button">Back to summary</a>
+              <a href="@linkUrl" class="btn btn-primary mb-4" ROLE="button">Next</a>
             }
           }
+
+          @defining(s"../summary-results.html#heading_${courseClass}") { linkUrl =>
+            <a href="@linkUrl" class="btn btn-warning mb-4" ROLE="button">Back to summary</a>
+          }
+
         } else {
           @helper.form(action = routes.ResultsController.summaryResultsDisplay) {
             <br>

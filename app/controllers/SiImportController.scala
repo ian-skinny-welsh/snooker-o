@@ -3,13 +3,12 @@ package controllers
 import java.nio.file.Files
 
 import javax.inject._
-
 import play.api._
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.mvc._
-
 import com.github.tototoshi.csv._
 import helpers.CompetitorProcessor
+import models.BallColour.{RedBall, UnknownBall}
 import models.FileNameForm
 
 import scala.concurrent.ExecutionContext
@@ -47,7 +46,7 @@ class SiImportController @Inject()(cc:MessagesControllerComponents)
         val allData = reader.all.drop(1)
         reader.close()
         Files.deleteIfExists(file.toPath)
-        val data = CompetitorProcessor.getCompetitors(allData)
+        val data = CompetitorProcessor.setImportedCsvData(allData)
         // logger.info(s"getCompetitors produced: $data")
         data
 
@@ -57,9 +56,11 @@ class SiImportController @Inject()(cc:MessagesControllerComponents)
     }
 
     fileOption match {
-      case Some(comps: Map[_,_]) => Redirect(routes.ResultsController.summaryResultsDisplay)
+      case Some(RedBall) => Redirect(routes.ResultsController.summaryResultsDisplay)
 
-      case Some(x: String) => Ok(s"File load result = $x")
+      case Some(UnknownBall) => Redirect(routes.ErrorController.basicErrorDisplay("Unable to process the input file, please check it and try again."))
+
+      case Some(x: String) => Redirect(routes.ErrorController.basicErrorDisplay(x))
 
       case _ => Ok(s"File load result = no file")
     }
