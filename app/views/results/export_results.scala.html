@@ -1,6 +1,9 @@
 @import models.FileNameForm
 
-@(form: Form[models.FileNameForm])(implicit request: MessagesRequestHeader)
+@(form: Form[models.FileNameForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@exportMsg = @{flash.get("exportMsg").getOrElse("")}
+@exportError = @{flash.get("exportError").getOrElse("")}
 
 @main("Welcome to Snooker O") {
   <div class="col-8">
@@ -32,5 +35,20 @@
         <input type="submit" id="upload" value="Export the results" class="btn btn-primary btn-lg"/>
       </div>
     }
+
+    @if(exportMsg.nonEmpty || exportError.nonEmpty){
+      <div class="mt-5 mb-3">
+      @if(exportMsg.nonEmpty){
+        <h1 class="alert alert-primary">Export complete</h1>
+        <p>@exportMsg</p>
+      } else {
+        @if(exportError.nonEmpty){
+          <h1 class="alert alert-danger">Export failed</h1>
+          <p>@exportError</p>
+        }
+      }
+      </div>
+    }
+
   </div>
 }
