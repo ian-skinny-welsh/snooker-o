@@ -25,7 +25,7 @@ class HomeControllerSpec extends PlaySpec with GuiceOneServerPerSuite with Injec
       val responseFuture = inject[WSClient].url(url).post(postSource(tmpFile))
       val response = await(responseFuture)
       response.status mustBe OK
-      response.body mustBe "File load result = The file 'hello.txt' does not appear to contain csv data.  Please check and try again."
+      response.uri.getPath must include ("/error-page/")
     }
   }
 

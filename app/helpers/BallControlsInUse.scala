@@ -30,23 +30,22 @@ object BallControlsInUse {
   private def getDefaultData(): Map[BallColour, List[ControlCode]] = {
     Map(
       RedBall -> List(
-        ControlCode(101),
-        ControlCode(102),
-        ControlCode(103),
-        ControlCode(104),
-        ControlCode(105),
-        ControlCode(106),
-        ControlCode(107),
-        ControlCode(108),
-        ControlCode(109),
-        ControlCode(110)),
-      YellowBall -> List(ControlCode(121)),
-      GreenBall -> List(ControlCode(131)),
-      BrownBall -> List(ControlCode(141)),
-      BlueBall -> List(ControlCode(151)),
-      PinkBall -> List(ControlCode(161)),
-      BlackBall -> List(ControlCode(171)),
-
+        ControlCode(200),
+        ControlCode(201),
+        ControlCode(210),
+        ControlCode(211),
+        ControlCode(220),
+        ControlCode(221),
+        ControlCode(230),
+        ControlCode(231),
+        ControlCode(240),
+        ControlCode(241)),
+      YellowBall -> List(ControlCode(32)),
+      GreenBall -> List(ControlCode(33)),
+      BrownBall -> List(ControlCode(34)),
+      BlueBall -> List(ControlCode(35)),
+      PinkBall -> List(ControlCode(36)),
+      BlackBall -> List(ControlCode(37)),
     )
   }
 

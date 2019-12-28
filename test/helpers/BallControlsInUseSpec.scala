@@ -13,51 +13,51 @@ class BallControlsInUseSpec extends Specification with Mockito {
       data.size === 7
       data.keySet.contains(RedBall)
       data(RedBall) === List(
-        ControlCode(101),
-        ControlCode(102),
-        ControlCode(103),
-        ControlCode(104),
-        ControlCode(105),
-        ControlCode(106),
-        ControlCode(107),
-        ControlCode(108),
-        ControlCode(109),
-        ControlCode(110))
+        ControlCode(200),
+        ControlCode(201),
+        ControlCode(210),
+        ControlCode(211),
+        ControlCode(220),
+        ControlCode(221),
+        ControlCode(230),
+        ControlCode(231),
+        ControlCode(240),
+        ControlCode(241))
 
       data.keySet.contains(YellowBall)
-      data(YellowBall) === List(ControlCode(121))
+      data(YellowBall) === List(ControlCode(32))
 
       data.keySet.contains(GreenBall)
-      data(GreenBall) === List(ControlCode(131))
+      data(GreenBall) === List(ControlCode(33))
 
       data.keySet.contains(BrownBall)
-      data(BrownBall) === List(ControlCode(141))
+      data(BrownBall) === List(ControlCode(34))
 
       data.keySet.contains(BlueBall)
-      data(BlueBall) === List(ControlCode(151))
+      data(BlueBall) === List(ControlCode(35))
 
       data.keySet.contains(PinkBall)
-      data(PinkBall) === List(ControlCode(161))
+      data(PinkBall) === List(ControlCode(36))
 
       data.keySet.contains(BlackBall)
-      data(BlackBall) === List(ControlCode(171))
+      data(BlackBall) === List(ControlCode(37))
     }
 
-    "Return RedBall for codes 101 to 110" in {
-      BallControlsInUse.getBallForControl(ControlCode(101)) === RedBall
-      BallControlsInUse.getBallForControl(ControlCode(102)) === RedBall
-      BallControlsInUse.getBallForControl(ControlCode(103)) === RedBall
-      BallControlsInUse.getBallForControl(ControlCode(108)) === RedBall
-      BallControlsInUse.getBallForControl(ControlCode(110)) === RedBall
+    "Return RedBall for codes 200 to 241" in {
+      BallControlsInUse.getBallForControl(ControlCode(200)) === RedBall
+      BallControlsInUse.getBallForControl(ControlCode(201)) === RedBall
+      BallControlsInUse.getBallForControl(ControlCode(210)) === RedBall
+      BallControlsInUse.getBallForControl(ControlCode(221)) === RedBall
+      BallControlsInUse.getBallForControl(ControlCode(241)) === RedBall
     }
 
     "Return the correct colour for other codes" in {
-      BallControlsInUse.getBallForControl(ControlCode(121)) === YellowBall
-      BallControlsInUse.getBallForControl(ControlCode(131)) === GreenBall
-      BallControlsInUse.getBallForControl(ControlCode(141)) === BrownBall
-      BallControlsInUse.getBallForControl(ControlCode(151)) === BlueBall
-      BallControlsInUse.getBallForControl(ControlCode(161)) === PinkBall
-      BallControlsInUse.getBallForControl(ControlCode(171)) === BlackBall
+      BallControlsInUse.getBallForControl(ControlCode(32)) === YellowBall
+      BallControlsInUse.getBallForControl(ControlCode(33)) === GreenBall
+      BallControlsInUse.getBallForControl(ControlCode(34)) === BrownBall
+      BallControlsInUse.getBallForControl(ControlCode(35)) === BlueBall
+      BallControlsInUse.getBallForControl(ControlCode(36)) === PinkBall
+      BallControlsInUse.getBallForControl(ControlCode(37)) === BlackBall
     }
 
     "Return IllegalBall for illegal controls" in {
