@@ -1,6 +1,6 @@
 name := """snooker-o"""
 
-version := "1.4-SNAPSHOT"
+version := "1.5-SNAPSHOT"
 
 maintainer := "ian.welsh@company.org"
 

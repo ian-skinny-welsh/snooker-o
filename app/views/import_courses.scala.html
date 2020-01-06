@@ -1,0 +1,58 @@
+@import models.CourseLists
+@import play.twirl.api.HtmlFormat
+
+@(courseClasses: Form[CourseLists], scoringTypes: List[CourseClassType])(implicit request: MessagesRequestHeader)
+
+@courseMappings = @{ courseClasses.get }
+@numberedCourses = @{ val courseClassTypes = if(courseMappings.courseClassTypes.isEmpty) {
+  List.fill(courseMappings.courseNames.size)("")
+} else {
+  courseMappings.courseClassTypes
+}
+  courseMappings.courseNames.zip(courseClassTypes).zipWithIndex
+}
+
+@optionData = @{
+  val options = scoringTypes.map(v => v.toString -> v.toString)
+  var optionsHtml: Seq[Html] = Seq.empty
+  for(opt <- scoringTypes) yield {
+    optionsHtml = optionsHtml :+ Html(s" <option value='${opt.entryName}'>${opt.entryName}</option>")
+  }
+
+  HtmlFormat.fill(optionsHtml)
+}
+
+@main("Welcome to Snooker O") {
+  <div class="col-8">
+    <h1>Configure The Courses</h1>
+        <p class="lead">Match your SiTiming Course/Class names to the desired scoring method</p>
+        <br>
+    @helper.form(action = routes.SetupController.importCoursesSubmit) {
+      <div id="courses_setup_field">
+
+        <h2>Match up your courses</h2>
+
+        @for(((courseSiName, courseMappedTo), index) <- numberedCourses) {
+          <dl class=" " id=@{s"course_${index}_field"}>
+
+            <dt><label for=@{s"courseMappings[${index}]"}>SiTiming Class/Course: @{courseSiName}</label></dt>
+
+            <dd>
+              <input type="text" id=@{s"courseNames[${index}]"} name=@{s"courseNames[${index}]"} value='@{courseSiName}' hidden />
+              <select id=@{s"courseMappings[${index}]"} name=@{s"courseMappings[${index}]"}>
+                @optionData
+              </select>
+            </dd>
+          </dl>
+          <br>
+        }
+
+      </div>    @helper.CSRF.formField
+
+      <br>
+      <div id="courses_setup_field2">
+        <input type="submit" id="upload" value="Process your mappings" class="btn btn-primary btn-lg"/>
+      </div>
+    }
+  </div>
+}
