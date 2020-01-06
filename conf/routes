@@ -15,6 +15,9 @@ POST    /import-results                    controllers.SiImportController.import
 GET     /import-controls                   controllers.SetupController.importControlsDisplay
 POST    /import-controls                   controllers.SetupController.importControlsSubmit
 
+GET     /setup-courses                   controllers.SetupController.importCoursesDisplay
+POST    /setup-courses                   controllers.SetupController.importCoursesSubmit
+
 GET     /setup-controls                    controllers.SetupController.setupControlsDisplay(msg: String ?= "Enter a comma separated list of control numbers for each 'ball'")
 POST    /setup-controls                    controllers.SetupController.setupControlsSubmit
 

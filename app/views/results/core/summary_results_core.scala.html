@@ -1,4 +1,4 @@
-@(results: Map[CourseClassType, List[PlacedCompetitor]], forExport: Boolean = false)(implicit request: MessagesRequestHeader)
+@(results: Map[String, List[PlacedCompetitor]], forExport: Boolean = false)(implicit request: MessagesRequestHeader)
 
   <div class="col-8">
     <h1>Results summary by class</h1>
@@ -16,7 +16,8 @@
               <th scope="col" class="centre">Age Class</th>
               <th scope="col" class="centre">Controls</th>
               <th scope="col" class="centre">Time</th>
-              <th scope="col" class="right">Score</th>
+              <th scope="col" class="right">Punch Score</th>
+              <th scope="col" class="right">Final Score</th>
               <th scope="col" class="centre">Details</th>
             </tr>
           </thead>
@@ -29,6 +30,7 @@
                 <td class="centre">@comp.competitor.ageCat</td>
                 <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
                 <td class="centre">@comp.competitor.raceTime.timeTaken</td>
+                <td class="right">@comp.competitor.scores.getPunchScore</td>
                 <td class="right">@comp.competitor.scores.getFinalScore</td>
                 <td class="centre"><a href="@linkTemplate(forExport, comp.place, courseClass)" class="btn btn-outline-secondary btn-sm" ROLE="button">@comp.competitor.name</a></td>
               </tr>
@@ -50,10 +52,10 @@
       }
   </div>
 
-  @linkTemplate(forExport: Boolean, place: Int, courseClassType: CourseClassType) = @{
+  @linkTemplate(forExport: Boolean, place: Int, courseClassType: String) = @{
       if(forExport){
-        s"details/${courseClassType.entryName.toLowerCase}-${place}.html"
+        s"details/${courseClassType.replaceAll(" ", "").toLowerCase}-${place}.html"
       } else {
-        routes.ResultsController.detailedResultsDisplay(courseClassType.toString, place)
+        routes.ResultsController.detailedResultsDisplay(courseClassType, place)
       }
   }

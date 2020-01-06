@@ -45,7 +45,7 @@ object ExportHelper {
     ) yield {
       val detailedResultsPage = views.html.results.core.results_wrapper("Detailed results",
         views.html.results.core.detailed_results_core(courseClassType, placedCompetitor, true, numEntries))
-      val path = basePath + s"${DETAILED_RESULTS_PATH}\\${courseClassType.toString.toLowerCase}-${placedCompetitor.place}.html"
+      val path = basePath + s"${DETAILED_RESULTS_PATH}\\${courseClassType.replaceAll(" ", "").toLowerCase}-${placedCompetitor.place}.html"
       outputToFile(path, detailedResultsPage.toString)
     }
   }
@@ -74,7 +74,7 @@ object ExportHelper {
     outputToCsvFile(csvResultsPath, exportData)
   }
 
-  private def findCompetitor(siCard: String, competitors: Map[CourseClassType, List[PlacedCompetitor]]): Option[PlacedCompetitor] = {
+  private def findCompetitor(siCard: String, competitors: Map[String, List[PlacedCompetitor]]): Option[PlacedCompetitor] = {
     val comps = for(
       courseClassType <- competitors.keySet;
       comp <- competitors(courseClassType).filter(p => p.competitor.siCard.toString == siCard)

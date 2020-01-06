@@ -3,7 +3,6 @@ package controllers
 import java.nio.file.Files
 
 import javax.inject._
-
 import play.api._
 import play.api.data.Form
 import play.api.mvc.MultipartFormData.FilePart
@@ -11,11 +10,9 @@ import play.api.mvc._
 
 import scala.concurrent.ExecutionContext
 import com.github.tototoshi.csv._
-
-import helpers.BallControlsInUse
+import helpers.{BallControlsInUse, CourseMapper}
 import models.BallColour.{BlackBall, BlueBall, BrownBall, GreenBall, PinkBall, RedBall, YellowBall}
-import models.{BallColour, ControlsForBalls}
-import models.FileNameForm
+import models.{BallColour, ControlsForBalls, CourseClassType, CourseLists, FileNameForm}
 
 @Singleton
 class SetupController @Inject() (cc:MessagesControllerComponents)
@@ -44,6 +41,10 @@ class SetupController @Inject() (cc:MessagesControllerComponents)
     utilSetupControlsDisplay(formData, msg)
   }
 
+  private def getCtrlNumbers(ballColour: BallColour): String = {
+    BallControlsInUse.getControlsForBall(ballColour).map(_.ctrlCode).mkString(", ")
+  }
+
   def setupControlsSubmit = Action { implicit request =>
     ControlsForBalls.ctrlsForBallsForm.bindFromRequest.fold(
       formWithErrors => {
@@ -60,10 +61,6 @@ class SetupController @Inject() (cc:MessagesControllerComponents)
 
   def importControlsDisplay = Action { implicit request =>
     Ok(views.html.import_controls(FileNameForm.form))
-  }
-
-  private def getCtrlNumbers(ballColour: BallColour): String = {
-    BallControlsInUse.getControlsForBall(ballColour).map(_.ctrlCode).mkString(", ")
   }
 
   def importControlsSubmit = Action(parse.multipartFormData(handleFilePartAsFile)) { implicit request =>
@@ -97,4 +94,23 @@ class SetupController @Inject() (cc:MessagesControllerComponents)
       case _ => Ok(s"File load result = no file")
     }
   }
+
+  def importCoursesDisplay = Action { implicit request =>
+    val data = CourseLists(CourseMapper.getCourseNamesFromRawData, List.empty)
+    val formData = CourseLists.courseListsForm.fill(data)
+    Ok(views.html.import_courses(formData, CourseClassType.values.toList))
+  }
+
+  def importCoursesSubmit = Action { implicit request =>
+    CourseLists.courseListsForm.bindFromRequest.fold(
+      formWithErrors => {
+        Ok(views.html.import_courses(formWithErrors, CourseClassType.values.toList))
+      },
+      courseMappingsData => {
+        CourseMapper.setCourseMappings(courseMappingsData)
+        Redirect(routes.ResultsController.summaryResultsDisplay)
+      }
+    )
+  }
+
 }

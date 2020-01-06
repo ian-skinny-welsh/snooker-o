@@ -1,4 +1,4 @@
-@(courseClass: CourseClassType, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
+@(courseClass: String, comp: PlacedCompetitor)(implicit request: MessagesRequestHeader)
 
 @numberedPunches = @{ comp.competitor.punchResults.results.zip(LazyList from 1)}
 

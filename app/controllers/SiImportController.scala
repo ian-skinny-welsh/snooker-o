@@ -56,7 +56,7 @@ class SiImportController @Inject()(cc:MessagesControllerComponents)
     }
 
     fileOption match {
-      case Some(RedBall) => Redirect(routes.ResultsController.summaryResultsDisplay)
+      case Some(RedBall) => Redirect(routes.SetupController.importCoursesDisplay())
 
       case Some(UnknownBall) => Redirect(routes.ErrorController.basicErrorDisplay("Unable to process the input file, please check it and try again."))
 
