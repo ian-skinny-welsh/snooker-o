@@ -1,0 +1,5 @@
+@(results: Map[String, List[PlacedCompetitor]])(implicit request: MessagesRequestHeader)
+
+@main("Results Summary") {
+  @core.summary_results_core(results)
+}

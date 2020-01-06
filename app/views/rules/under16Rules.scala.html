@@ -1,0 +1,24 @@
+@()(implicit request: MessagesRequestHeader)
+
+@main("Under 16's Rules for Snooker O") {
+      <div class="col-8">
+        <h1>Rules for the Under16 class</h1>
+
+        @basicScoreRules()
+
+        <br>
+        <h2>Clearing the Reds</h2>
+        <ol>
+          <li>Collect all the red controls in any order WITHOUT PUNCHING ANY COLOURS - that would cost you penalty points! </li>
+          <li>If you have not collected all 10 Reds, then any colours you collect will not score points; even if in the correct order. </li>
+        </ol>
+
+        <br>
+        @coloursRules()
+
+        <br>
+        @hints(16)
+
+        @rulesCards()
+      </div>
+}

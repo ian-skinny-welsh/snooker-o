@@ -2,19 +2,20 @@ package models
 
 import enumeratum._
 
-sealed trait CourseClassType extends EnumEntry
+sealed abstract class CourseClassType(override val entryName: String) extends EnumEntry
 
 object CourseClassType extends Enum[CourseClassType] {
-  case object Adults extends CourseClassType
-  case object OpenOrder extends CourseClassType
-  case object Under16 extends CourseClassType
+  case object FullSnooker extends CourseClassType("Full Snooker O")
+  case object SimplifiedSnooker extends CourseClassType("Simplified Snooker O")
+  case object NormalScore extends CourseClassType("Normal Score")
 
   val values = findValues
 
   def fromString(str: String): CourseClassType = {
-    CourseClassType.withNameInsensitiveOption(str.replaceAll(" ", "")) match {
+    println(s"CourseClassType from string called with: $str")
+    CourseClassType.withNameInsensitiveOption(str) match {
       case Some(cc) => cc
-      case None => OpenOrder
+      case None => NormalScore
     }
   }
 

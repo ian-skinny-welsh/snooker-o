@@ -3,6 +3,7 @@ package models
 import org.specs2.mock._
 import org.specs2.mutable._
 import RaceTime.fromString
+import RaceTime.{ ValidRaceTime, InvalidRaceTime }
 
 class RaceTimeSpec extends Specification with Mockito {
 

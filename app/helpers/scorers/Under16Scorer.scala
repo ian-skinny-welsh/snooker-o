@@ -29,8 +29,8 @@ object Under16Scorer extends Scorer {
                 val validPunchesOfThisCtrl = countHowManyValidPunchesOfThisCtrl(previous, thisCtrlCode)
 
                 thisBallColour match {
-                  case _ if requiredColour.isARed && thisBallColour.isARed && validPunchesOfThisCtrl > 1 =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, 0, "This 'Red' has been punched before"), tail, requiredColour)
+                  case ballX if requiredColour.isARed && thisBallColour.isARed && validPunchesOfThisCtrl > 1 =>
+                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, ballX.getPenaltyValue, "This 'Red' has been punched before"), tail, requiredColour)
 
                   case _ if requiredColour.isARed && thisBallColour.isARed =>
                     val nextBallColour = if (numberOfValidRedsPunched(previous) + 1 >= BallControlsInUse.getNumberOfReds) {
@@ -41,7 +41,7 @@ object Under16Scorer extends Scorer {
                     processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, POINTS_FOR_RED, "Valid 'Red'"), tail, nextBallColour)
 
                   case ballX if requiredColour.isARed && thisBallColour.isAColour =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, 0, s"'${thisBallColour.toString}' punched when Red required"), tail, requiredColour)
+                    processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, ballX.getPenaltyValue, s"'${thisBallColour.toString}' punched when Red required"), tail, requiredColour)
 
                 }
               }

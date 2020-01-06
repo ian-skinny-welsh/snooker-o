@@ -1,0 +1,40 @@
+@import helpers.CompetitorProcessor
+
+    <div class="col-2" style="position: sticky">
+      <br>
+        <ul class="nav nav-list flex-column">
+          <li class="nav-header">Navigation</li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Homepage</a>
+          </li>
+          <li class="nav-header">Rules</li>
+          <li>
+            <a class="nav-link" href="@routes.HomeController.adultRulesDisplay">Adult Rules</a>
+          </li>
+          <li>
+            <a class="nav-link" href="@routes.HomeController.under16RulesDisplay">Under 16's Rules</a>
+          </li>
+          <li>
+            <a class="nav-link" href="@routes.HomeController.openRulesDisplay">Open class Rules</a>
+          </li>
+
+          <li class="nav-header">Configuration</li>
+          <li class="nav-item">
+            <a class="nav-link" href="/import-controls">Import controls file</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/setup-controls">Manually set controls</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="@routes.SiImportController.importResultsDisplay">Import results file</a>
+          </li>
+
+          <li class="nav-header">Results</li>
+          <li class="nav-item">
+            <a class="@{if(CompetitorProcessor.getCurrentDataSet.isEmpty)"nav-link disabled" else "nav-link"}" href="@routes.ResultsController.summaryResultsDisplay">Results summary</a>
+          </li>
+          <li class="nav-item">
+            <a class="@{if(CompetitorProcessor.getCurrentDataSet.isEmpty)"nav-link disabled" else "nav-link"}" href="@routes.ResultsController.exportResultsDisplay">Export results</a>
+          </li>
+        </ul>
+    </div>

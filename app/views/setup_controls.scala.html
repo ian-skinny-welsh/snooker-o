@@ -1,0 +1,42 @@
+@import helper._
+
+@(formData: Form[ControlsForBalls], msg: String)(implicit request: MessagesRequestHeader)
+
+@main("Setup Controls") {
+  <div class="col-8">
+    <h1>Set up the control numbers for each 'colour'</h1>
+
+    @helper.form(action = routes.SetupController.setupControlsSubmit) {
+        <div class="alert alert-primary" role="alert">
+          <p>@msg</p>
+        </div>
+
+      @inputTemplate("Red", formData("Red").value.getOrElse(""))
+      @inputTemplate("Yellow", formData("Yellow").value.getOrElse(""))
+      @inputTemplate("Green", formData("Green").value.getOrElse(""))
+      @inputTemplate("Brown", formData("Brown").value.getOrElse(""))
+      @inputTemplate("Blue", formData("Blue").value.getOrElse(""))
+      @inputTemplate("Pink", formData("Pink").value.getOrElse(""))
+      @inputTemplate("Black", formData("Black").value.getOrElse(""))
+
+      <br>
+      <div>
+        <input type="submit" id="toindex" value="Use these values" class="btn btn-primary"/>
+      </div>
+
+      @helper.CSRF.formField
+    }
+  </div>
+}
+
+@inputTemplate(nameVal: String, valueVal: String) = @{
+    <dl class=" " id={s"${nameVal}_field"}>
+
+      <dt><label for={nameVal}>{nameVal}'s</label></dt>
+
+      <dd>
+        <input type="text" id={nameVal} name={nameVal} value={valueVal} size={s"${valueVal.length}"}/>
+      </dd>
+    </dl>
+}
+

@@ -1,0 +1,39 @@
+@()(implicit request: MessagesRequestHeader)
+
+    <br>
+    <div class="row">
+      <div class="col">
+        <h2>
+          <span>Rules for each class</span>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-sm">
+        <div class="card">
+          <h5 class="card-header">Adults</h5>
+          <div class="card-body">
+            <p class="card-text">'Pot' a Red then a Colour until the reds are cleared, then pot the colours in the correct order.</p>
+            <a class="btn btn-primary" href=@routes.HomeController.adultRulesDisplay>Full Adult class rules</a>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm">
+        <div class="card">
+          <h5 class="card-header">Under 16's</h5>
+          <div class="card-body">
+            <p class="card-text">'Pot' all the Reds then then pot the colours in the correct order.</p>
+            <a class="btn btn-primary" href=@routes.HomeController.under16RulesDisplay>Full Under 16 rules</a>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm">
+        <div class="card">
+          <h5 class="card-header">Open class</h5>
+          <div class="card-body">
+            <p class="card-text">Standard 'Score'. Punch as many you can in any order, but don't repeat any control.</p>
+            <a class="btn btn-primary" href=@routes.HomeController.openRulesDisplay>Full Open class rules</a>
+          </div>
+        </div>
+      </div>
+    </div>

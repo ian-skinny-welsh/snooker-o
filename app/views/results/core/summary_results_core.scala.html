@@ -1,0 +1,61 @@
+@(results: Map[String, List[PlacedCompetitor]], forExport: Boolean = false)(implicit request: MessagesRequestHeader)
+
+  <div class="col-8">
+    <h1>Results summary by class</h1>
+    <br>
+      @results.toSeq.map { case (courseClass, comps) =>
+        <div class="alert alert-danger" role="alert">
+          <h2 id="heading_@courseClass">@courseClass - @comps.size competitors</h2>
+        </div>
+        <table id="control_@courseClass" class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col" class="left">Pos</th>
+              <th scope="col" class="left">Name</th>
+              <th scope="col" class="left">Club</th>
+              <th scope="col" class="centre">Age Class</th>
+              <th scope="col" class="centre">Controls</th>
+              <th scope="col" class="centre">Time</th>
+              <th scope="col" class="right">Punch Score</th>
+              <th scope="col" class="right">Final Score</th>
+              <th scope="col" class="centre">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            @comps.map { comp =>
+              <tr>
+                <td class="left">@comp.place</td>
+                <td class="left">@comp.competitor.name</td>
+                <td class="left">@comp.competitor.club</td>
+                <td class="centre">@comp.competitor.ageCat</td>
+                <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
+                <td class="centre">@comp.competitor.raceTime.timeTaken</td>
+                <td class="right">@comp.competitor.scores.getPunchScore</td>
+                <td class="right">@comp.competitor.scores.getFinalScore</td>
+                <td class="centre"><a href="@linkTemplate(forExport, comp.place, courseClass)" class="btn btn-outline-secondary btn-sm" ROLE="button">@comp.competitor.name</a></td>
+              </tr>
+            }
+
+            </tbody>
+          </table>
+      }
+
+      @if(!forExport) {
+        <br>
+        @helper.form(action = routes.HomeController.index) {
+
+          @helper.CSRF.formField
+          <div>
+            <input class = "btn btn-primary" type="submit" id="toindex" value="Return to Homepage"/>
+          </div>
+        }
+      }
+  </div>
+
+  @linkTemplate(forExport: Boolean, place: Int, courseClassType: String) = @{
+      if(forExport){
+        s"details/${courseClassType.replaceAll(" ", "").toLowerCase}-${place}.html"
+      } else {
+        routes.ResultsController.detailedResultsDisplay(courseClassType, place)
+      }
+  }

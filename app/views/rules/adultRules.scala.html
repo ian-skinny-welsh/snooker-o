@@ -1,0 +1,31 @@
+@()(implicit request: MessagesRequestHeader)
+
+@main("Adult Rules for Snooker O") {
+      <div class="col-8">
+        <h1>Rules for Snooker O – Adults class</h1>
+
+        @basicScoreRules()
+
+        <br>
+        <h2>Clearing the Reds</h2>
+        <ol>
+          <li>The reds must be cleared before attempting the colours. However every time a red is cleared,
+            a colour of your choice must be punched next. Treat each red as part of a Red-Colour pair until <strong>all</strong> the reds have been cleared.</li>
+          <li>The choice of which colour ball you punch after each red is up to you - however this is Orienteering.
+            Once you have been to a colour the first time you will then know where it is located. So while
+            clearing the reds each subsequent visit to that colour will score <strong>25% fewer points</strong>. For instance, the first time you visit the PINK
+            it will be worth 60 points, but 45 the second time, 30 the third time, 15 the fourth time – and 0 for any other visits.</li>
+          <li>Once all the Reds-Colour pairs are cleared; all the colours revert to their full values ready for
+            clearing the colours.</li>
+          <li>If you have not collected all 10 Red-Colour pairs, then any colours you collect will not score points; even if in the correct order. </li>
+        </ol>
+
+        <br>
+        @coloursRules()
+
+        <br>
+        @hints(26)
+
+        @rulesCards()
+      </div>
+}

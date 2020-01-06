@@ -19,8 +19,8 @@ object OpenOrderScorer extends Scorer {
               case UnknownBall =>
                 processList(previous :+ PunchResult(thisCtrlCode, UnknownBall, 0, "Unknown ctrl punched, will be ignored"), tail)
 
-              case _ if validPunchesOfThisCtrl > 1 =>
-                processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, 0, s"$thisCtrlCode '${thisBallColour.toString}' has been punched before"), tail)
+              case ballX if validPunchesOfThisCtrl > 1 =>
+                processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, ballX.getPenaltyValue, s"$thisCtrlCode '${thisBallColour.toString}' has been punched before"), tail)
 
               case _ =>
                 processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, thisBallColour.getPointsValue, s"Valid '${thisBallColour.toString}'"), tail)

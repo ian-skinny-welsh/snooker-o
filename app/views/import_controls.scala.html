@@ -1,0 +1,43 @@
+@import models.FileNameForm
+
+@(form: Form[models.FileNameForm])(implicit request: MessagesRequestHeader)
+
+@main("Welcome to Snooker O") {
+  <div class="col-8">
+    <h1>Import your control numbers file</h1>
+        <p class="lead">The file must be a .csv file containing control lists in the following format.  The order of the colours is not important</p>
+        <br>
+        <div class="card">
+          <div class="card-body">
+              <p class="card-text">Red,100,101,102,103,104,105,106,107,108,109</p>
+              <p class="card-text">Yellow,32</p>
+              <p class="card-text">Green,33</p>
+              <p class="card-text">Brown, 34</p>
+              <p class="card-text">Blue,35</p>
+              <p class="card-text">Pink,36</p>
+              <p class="card-text">Black,37</p>
+          </div>
+        </div>
+        <br>
+    @helper.form(action = routes.SetupController.importControlsSubmit, Symbol("enctype") -> "multipart/form-data") {
+      <div id="controls_import_field">
+
+        <h2>Select your controls file</h2>
+
+        <div>
+          <label for="import_controls">This must be a csv file as described above</label>
+          <p>
+            <input type="file" id="import_controls" name="import_controls" value="Select file..." class="btn btn-secondary">
+          </p>
+        </div>
+      </div>
+
+      @helper.CSRF.formField
+
+      <br>
+      <div id="controls_import_field2">
+        <input type="submit" id="upload" value="Process your chosen file" class="btn btn-primary btn-lg"/>
+      </div>
+    }
+  </div>
+}

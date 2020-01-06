@@ -27,11 +27,8 @@ object AdultsScorer extends Scorer {
                 val thisScore = getScoreForThisPunch(validPunchesOfThisCtrl, thisBallColour)
 
                 thisBallColour match {
-                  case ballX if requiredColour == IllegalColour && thisBallColour.isAColour =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, 0, s"'${thisBallColour.toString}' punched but will score zero due to previous illegal Red"), tail, RedBall)
-
                   case ballX if requiredColour.isARed && thisBallColour.isARed && validPunchesOfThisCtrl > 1 =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, 0, "This 'Red' has been punched before"), tail, requiredColour)
+                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, ballX.getPenaltyValue, s"This 'Red' has been punched before"), tail, requiredColour)
 
                   case ballX if requiredColour.isARed && thisBallColour.isARed =>
                     processList(previous :+ PunchResult(thisCtrlCode, RedBall, thisScore, "Valid 'Red'"), tail, AnyColouredBall)
@@ -45,10 +42,10 @@ object AdultsScorer extends Scorer {
                     processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, thisScore, s"Valid '${thisBallColour.toString}'"), tail, nextBallColour)
 
                   case ballX if requiredColour.isAColour && thisBallColour.isARed =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, 0, s"'${thisBallColour.toString}' punched when colour required, next colour will score zero"), tail, IllegalColour)
+                    processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, ballX.getPenaltyValue, s"'Red' punched when colour required"), tail, IllegalColour)
 
                   case ballX if requiredColour.isARed && thisBallColour.isAColour =>
-                    processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, 0, s"'${thisBallColour.toString}' punched when Red required"), tail, requiredColour)
+                    processList(previous :+ PunchResult(thisCtrlCode, IllegalColour, ballX.getPenaltyValue, s"'${thisBallColour.toString}' punched when Red required"), tail, requiredColour)
 
                 }
               }

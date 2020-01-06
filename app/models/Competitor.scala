@@ -6,7 +6,7 @@ case class Competitor(siCard: Long,
                       name: String,
                       ageCat: AgeCat,
                       club: String,
-                      courseClass: CourseClassType,
+                      courseClass: String,
                       raceTime: RaceTime,
                       punchedControls: PunchedControls,
                       punchResults: PunchResults,
@@ -18,5 +18,6 @@ case class Competitor(siCard: Long,
 
 object Competitor {
   implicit def orderingByScoreThenName[A <: Competitor]: Ordering[A] =
-    Ordering.by(e => (e.scores.finalScore, e.raceTime.timeTaken.asSeconds))
+    // Invert the time so that longer time is more negative i.e. smaller
+    Ordering.by(e => (e.scores.finalScore, - e.raceTime.timeTaken.asSeconds))
 }

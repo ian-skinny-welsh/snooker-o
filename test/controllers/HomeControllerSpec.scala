@@ -21,17 +21,17 @@ class HomeControllerSpec extends PlaySpec with GuiceOneServerPerSuite with Injec
       val msg = "hello world"
       Files.write(tmpFile.toPath, msg.getBytes())
 
-      val url = s"http://localhost:${port}/upload"
+      val url = s"http://localhost:${port}/import-results"
       val responseFuture = inject[WSClient].url(url).post(postSource(tmpFile))
       val response = await(responseFuture)
       response.status mustBe OK
-      response.body mustBe "File load result = The file 'hello.txt' does not appear to contain csv data.  Please check and try again."
+      response.uri.getPath must include ("/error-page/")
     }
   }
 
   def postSource(tmpFile: File): Source[MultipartFormData.Part[Source[ByteString, _]], _] = {
     import play.api.mvc.MultipartFormData._
-    Source(FilePart("results_upload", "hello.txt", Option("text/plain"),
+    Source(FilePart("import_results", "hello.txt", Option("text/plain"),
       FileIO.fromPath(tmpFile.toPath)) :: DataPart("key", "points") :: List())
   }
 }

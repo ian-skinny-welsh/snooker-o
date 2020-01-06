@@ -1,0 +1,17 @@
+/* TODO:  This SQL was required to extract the splits from the SiTiming aka MSSql DB on the server
+  TODO:  Future enhancement to extract the split times from the DB to correctly write the BOF CSV file
+select
+       d2.CardNumber,
+       d2.ControlCode,
+       d2.CalculatedTimeOfDay as Split,
+       d2.VisitedOrder as Points
+       from  download d1, DownloadPunch d2, Stage s
+       where
+ s.ID = d1.StageID
+        and s.Date > '01/01/2020'
+and d1.ID = d2.DownloadID
+and D2.CardNumber = 8667921
+and d2.VisitedOrder is not null
+order by d2.CardNumber, d2.VisitedOrder
+
+*/
