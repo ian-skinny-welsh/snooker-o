@@ -39,7 +39,8 @@ object AdultsScorer extends Scorer {
                     } else {
                       RedBall
                     }
-                    processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, thisScore, s"Valid '${thisBallColour.toString}'"), tail, nextBallColour)
+                    val msgText = getNthText(validPunchesOfThisCtrl)
+                    processList(previous :+ PunchResult(thisCtrlCode, thisBallColour, thisScore, s"Valid '${thisBallColour.toString}' - $msgText"), tail, nextBallColour)
 
                   case ballX if requiredColour.isAColour && thisBallColour.isARed =>
                     processList(previous :+ PunchResult(thisCtrlCode, IllegalRed, ballX.getPenaltyValue, s"'Red' punched when colour required"), tail, IllegalColour)

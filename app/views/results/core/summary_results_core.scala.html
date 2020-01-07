@@ -11,28 +11,26 @@
           <thead>
             <tr>
               <th scope="col" class="left">Pos</th>
-              <th scope="col" class="left">Name</th>
+              <th scope="col" class="text-center"><span>Name</span><br><span>(Click for more details)</span></th>
               <th scope="col" class="left">Club</th>
-              <th scope="col" class="centre">Age Class</th>
-              <th scope="col" class="centre">Controls</th>
-              <th scope="col" class="centre">Time</th>
+              <th scope="col" class="text-center">Age Class</th>
+              <th scope="col" class="text-center">Controls</th>
+              <th scope="col" class="text-center">Time</th>
               <th scope="col" class="right">Punch Score</th>
               <th scope="col" class="right">Final Score</th>
-              <th scope="col" class="centre">Details</th>
             </tr>
           </thead>
           <tbody>
             @comps.map { comp =>
               <tr>
                 <td class="left">@comp.place</td>
-                <td class="left">@comp.competitor.name</td>
+                <td class="left"><a href="@linkTemplate(forExport, comp.place, courseClass)" class="btn btn-outline-primary btn-sm" ROLE="button">@comp.competitor.name</a></td>
                 <td class="left">@comp.competitor.club</td>
-                <td class="centre">@comp.competitor.ageCat</td>
-                <td class="centre">@comp.competitor.punchedControls.numberOfControlsPunched</td>
-                <td class="centre">@comp.competitor.raceTime.timeTaken</td>
+                <td class="text-center">@comp.competitor.ageCat</td>
+                <td class="text-center">@comp.competitor.punchedControls.numberOfControlsPunched</td>
+                <td class="text-center">@comp.competitor.raceTime.timeTaken</td>
                 <td class="right">@comp.competitor.scores.getPunchScore</td>
                 <td class="right">@comp.competitor.scores.getFinalScore</td>
-                <td class="centre"><a href="@linkTemplate(forExport, comp.place, courseClass)" class="btn btn-outline-secondary btn-sm" ROLE="button">@comp.competitor.name</a></td>
               </tr>
             }
 

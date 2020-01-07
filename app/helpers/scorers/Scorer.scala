@@ -46,6 +46,15 @@ trait Scorer {
     previousPunches.iterator.count(punch => (punch.controlCode == thisCtrlCode) && (punch.ball.islegal)) + 1
   }
 
+  private[helpers] def getNthText(numOfPunches: Int):String = {
+    (numOfPunches match {
+      case 1 => "1st"
+      case 2 => "2nd"
+      case 3 => "3rd"
+      case _ => s"${numOfPunches}th"
+    }) + " visit"
+  }
+
   protected def clearTheColours(previous: List[PunchResult], remaining: List[ControlCode], requiredColour: BallColour,
                                 processList: (List[PunchResult], List[ControlCode], BallColour) => PunchResults) = {
 
